@@ -44,3 +44,6 @@
                    changes not staged for commit:
                    modified  : git.txt
                2  git add git.txt
+               3  git status
+                   "changes to be commited:
+                     modified : git.txt"
