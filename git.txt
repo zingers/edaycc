@@ -48,3 +48,20 @@
                    "changes to be commited:
                      modified : git.txt"
                test*呼呼
+
+      G     推送本地仓库分支到远程仓库
+        	  git  push  git@github.com:zingers/edaycc.git   master
+        	  现在刷新github网址，可以看到同步内容了
+
+      H      拉回远程仓库中的新内容
+      	   git  fetch  git@github.com:zingers/edaycc.git
+      	   该命令会之抓取远程仓库中不在本地仓库分支的新内容
+
+      I        查看远程仓库信息
+               git  remote show git@github.com:zingers/edaycc.git
+               会提示默认push分支，本地没有同步的分支等
+
+      J        远程仓库重命名和删除
+                git  remote rename git@github.com:zingers/edaycc.git git@github.com:zingers/hehe.git
+                git  remote -v   列出多个远程仓库
+                git remote rm pl
