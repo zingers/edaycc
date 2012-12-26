@@ -47,3 +47,4 @@
                3  git status
                    "changes to be commited:
                      modified : git.txt"
+               test*呼呼
