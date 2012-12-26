@@ -35,3 +35,12 @@
 
        D     cd edaycc
               git add git.txt
+              git commit -m "message"  不加-m会强制进入vi  用ESC : wq提交
+              奇特的是，现在刷新github 的repo，不会在edaycc仓库下看到新的git.txt文件
+
+       E     clone和svn checkout的区别是，clone本地包含了所有的文件版本，而不仅仅是最新版本
+
+       F      1  git status可以显示仓库里面文件的状态 modified 
+                   changes not staged for commit:
+                   modified  : git.txt
+               2  git add git.txt
