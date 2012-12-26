@@ -1,0 +1,37 @@
+#F92672
+一    安装
+    windows篇 http://code.google.com/p/msysgit/downloads/list?q=full+installer+official+git
+
+ 二   配置
+       配置文件在三个地方寻找
+       1  C:/documents and settings/$user/.gitconfig
+       2  /etc/gitconfig
+       3  .gitconfig
+       4  当前安装目录.gitconfig
+       在windows环境里  /etc/gitconfig似乎已安装目录为/主目录
+
+       A    配置用户信息
+              git config  --global  user.name  "Chen Bing"
+              git config  --global  user.email   "edaycc@gmail.com"
+              加--global参数，配置保存在用户主目录下，
+               不加这个参数的话，配置保存在.gitconfig 要先有这个文件
+
+       B      配置差异工具
+               git config --global merge.tool   vimdiff
+
+       C      显示配置信息
+                git config  list
+                显示单一配置选项
+                git config user.name
+
+ 三    获取项目仓库
+       A    产生一对SSHkey，上传ssh公钥pub文件到github ssh keys
+       B    从现有仓库克隆一个镜像
+              git  clone  git@github.com:zingers/edaycc.git
+              现在在当前目录下建立起edaycc目录，里面包含了github上创建的repo的镜像
+
+       C    修改clone镜像目录名
+       	  git  clone  git@github.com:zingers/edaycc.git   myedaycc
+
+       D     cd edaycc
+              git add git.txt
