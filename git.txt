@@ -65,3 +65,9 @@
                 git  remote rename git@github.com:zingers/edaycc.git git@github.com:zingers/hehe.git
                 git  remote -v   列出多个远程仓库
                 git remote rm pl
+
+**参考文献**
+          http://www.yangzhiping.com/tech/github.html
+                  此网页分析了github的一些特征
+          http://randyfay.com/content/git-over-ssh-tunnel-through-firewall-or-vpn
+                  此网页讨论了git over ssh， 尽管我不是很明白它在讲什么东西

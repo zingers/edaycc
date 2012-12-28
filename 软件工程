@@ -1,0 +1,15 @@
+**架构参考**
+	http://www.codingthearchitecture.com/pages/book/you-dont-need-a-uml-tool.html
+		该文献记录了关于是否需要UML的讨论
+	http://www.infoq.com/articles/model-driven-dev-best-practices
+		该文献记录了MDSE（模型驱动软件开发方法）最佳实践讨论
+	http://mdwhatever.free.fr/index.php/2010/06/model-driven-tools-the-big-list/
+		该文献列举了MDSE相关的工具分类集
+	http://www.theenterprisearchitect.eu/archive/2010/02/11/why-model-driven-software-development-isnt-fast-enough-and-how-to-fix-it
+		这是Johan de haan的博客（mendix CTO）
+		该篇主要提及MDSE为什么对软件开发而言不够快，以及相应的解决之道
+	            他的博客还有不少有意思的讨论
+	 http://www.techrepublic.com/article/five-common-errors-in-requirements-analysis-and-how-to-avoid-them/6146544
+	 	该篇讨论需求分析的5个常见错误，以及一些讨论
+	http://www.unpack.cn/thread-70349-1-1.html
+		这是国内发布的一个代码生成器的列表，auto code也是MDSE的一个重要部分，属于可自动生成的部品

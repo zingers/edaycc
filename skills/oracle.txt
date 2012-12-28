@@ -1,0 +1,14 @@
+**rownum**
+	这是一个伪列，不能加任何表名前缀
+	rownum是记录集的序号，从1开始
+	=的话好像只能=1
+		select rownum,month,sell from sale where rownum = 1
+		rownum = 2  && rownum > 5 都不能工作
+	区间操作
+		select rownum, month, sell from sale where rownum < 10
+		minus
+		select rownum, month, sell from sale where rownum < 5
+	和order by的关系
+		select rownum, month, sell from sale order by month
+		RS按照月份从小到大排列整齐，但是rownum内容依然保持加入数据列的顺序
+		要达到两个rownum 和 月份都从小到大排列，那么要构建一个子查询

@@ -1,0 +1,586 @@
+2007-6-20
+数据库hm修改 
+T_NET_SUPPLY  UPSWITCH
+T_CARD        SERIALNO
+
+2007-6-21
+新增表 t_machine
+alert_rule- err_type
+
+ブログＵＲＬ：http://sheryshen.blog110.fc2.com/
+ブログログインＵＲＬ：http://blog110.fc2.com/sheryshen/admin.php?mode=newentry&uid=1689496
+ブログＩＤ：sheryshen
+ブログタイトル：shery之家
+ユーザー名：xiaobai
+ブログの説明：shery and 唱歌的野兽的家 
+
+2007-6-27
+http://www39.websamba.com/wemake/Mp3/003.mp3 神田川
+http://appl.eastday.com/midsky/music/lover.mp3
+
+2007-7-9
+深圳t_ibss_fail,主键改称自增类型，本地软件已经修改
+T_dslam_errros的默认值在深圳加上了
+
+上海办 何武弟
+021-61226088 christina zhou
+13428792769  樱花飞舞 
+8081
+
+444502425
+
+VT pz78lt91
+
+60.176.181.244
+
+075583003138 3111
+
+nzd 9-24 40
+gbp 9-24 40
+gbpjpy 0-24 40
+
+TLV三元组，每组都是1-N个Byte
+Tag= 类型2位'00'+编码格式1位'0'+标签号码
+     <31   5bit
+     >31   类型2位 +编码格式1为'1'+11111+"xxxxxxx1'++"xxxxxxx0'
+     1111,1111,0010,1010 专用类 结构型 0结尾 42
+
+L字段长度表示V内容的数值长度
+内荣长度小于16Byte,用1Byte表示长度 0+0000110 表示6位
+>=16Byte 1+XXXXXXX(表示后续几个Byte)+ 几个Byte表示的内容长度
+
+1000,0010,0000,0011,1100,0000 ，表示内容段长度960位
+
+V字段内容
+
+
+曹琳：0871-6777663，4109750 
+2989940
+truehaph@163.com
+
+13888418721 phs fu
+
+第一。牢记色界发布地址连接,http://groups.google.com/group/ilovesejie任何时候可以通过这里找到色界论坛，或者直接发email到sejiedizhi@gmail.com索要,10秒钟会收到最新地址,同时请记住色界永久域名:www.sejie.com ,111.sejie.com www.sejie.org,www.sejie.com 第二。禁止在论坛发布任何与政治相关的话题，不能谈论或侮辱任何国家领导人的任何话题，违者立即删除ID。
+http://74.52.249.197
+
+第四。注册成功后，到[新会员学习区]跟帖后，即可进入版块浏览。
+
+13517167650 78929435
+
+
+202.216.228.18
+202.81.252.2
+
+2007-12-24 02:01下午  整理周报，发布云南新版本带监控功能
+
+Echo2 WindowPanes only allow a single child component. When you add a second component to a WindowPane you'll see this error message.
+
+The solution to this problem is to simply add a container component to the WindowPane, such as a Grid, Column, Row, or SplitPane. You can then add the Label and ListBox to the container component.
+
+There is actually an issue with EchoStudio here though: it should not be allowing you to add two child components to a WindowPane in the first place. I'll add this to the TODO list, it will be fixed very soon.
+
+Thanks for the report.
+
+2007-12-31 10:51下午
+DomainObject设计主要留在Sechma类里面的事情，版本控制等等处理
+信号识别，小时区打破通道，同时大时区延续通道内折射
+
+
+2008-1-2 04:06下午
+查早248的监控任务
+select t.config_id,t.object_type,t.field_id,t.alert_hint,t.alert_limit from t_alert_config t where 
+t.host_id='5bb8869f1725d06c011725f881be0002'
+
+查找末各任务的监控结果
+select * from t_scan_result t
+where t.config_id='07a0898b1734ae7e011735caef690030'
+
+select * from t_server t
+where t.server_ip='135.35.9.248'
+
+select * from t_monitorobject t
+where t.host_id='5bb8869f1725d06c011725f881be0002'
+
+2008-1-8 04:31下午
+更新拓扑视图，记得要修改initServlet
+
+2008-1-16 03:40下午
+index.jsp
+<TITLE> <bean:msg key="public.system" /><%@include file="/version" %>(<%=user.getLoginName()%>) </TITLE> 10
+
+
+2008-1-22 12:22上午
+  鼠标拖拽事件处理备份
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		// System.out.println(e.getSource());
+		// System.out.println(e.getX() + ":" + e.getY());
+		int left = image.getLeft();
+		int top = image.getTop();
+		int right = left + image.getWidth();
+		int down = top + image.getHeight();
+
+		int eventLeft = e.getX();
+		int eventTop = e.getY();
+
+		int posLeft = 0;
+		int posTop = 0;
+
+		if (lastMotionX == 0 && lastMotionY == 0) {
+			System.out.println("22222222");
+			// return;
+		} else {
+
+			if (eventLeft > left && eventLeft < right && eventTop > top
+					&& eventTop < down) {
+				System.out.println("11111111");
+				int xadjust = eventLeft - lastMotionX;
+				int yadjust = eventTop - lastMotionY;
+
+				posLeft = left + xadjust;
+				posTop = top + yadjust;
+
+				// 2 lines below should adjuest to posLeft and posTop;
+				image.setLeft(posLeft);
+				image.setTop(posTop);
+				repaint();
+				// return;
+			}
+
+			
+		}
+		lastMotionX = eventLeft;
+		lastMotionY = eventTop;
+
+	}
+	
+	
+	2008-1-23 09:42下午
+	我已经在jre/lib/security/java.policy中添加了   
+  permission   java.awt.AWTPermission     "showWindowWithoutWarningBanner";   
+  还是不行 
+	数字签名的基本操作流程:   
+  1.将你的程序打包；   
+  2.利用jre自带的工具keytool,jarsigner进行签名即可！   
+  keytool   -genkey   -keystore   自取名称.keystore   -alias   自取名称   
+  jarsinger   -keystore   自取名称.keystore   你打的包   自取名称   
+  keytool   -export   -keystore   自取名称.keystore   -alias   自取名称   -file   自取名称.cer
+  
+  
+  Java中使窗口无标题栏并全屏幕显示
+作者： 发布时间：2007-12-19 11:31:53
+让窗口全屏幕显示，并且不显示标题栏的情况在常用的软件开发中不是非常多见，但是对于开发如视频播放器这样的软件时，这样的功能就变得不可缺少了，那么如何实现这两个功能呢？
+    首先我们来看一下如何让窗口（比如说JFrame）的标题栏不显示呢？其实很简单，只需要调用Frame类中的setUndecorated()方法就可以让Frame窗口失去边框和标题栏的修饰了。代码示例如下：
+    JFrame f = new JFrame("test frame");
+    f.setUndecorated(true);
+    f.setSize(300, 300);
+    f.setVisible(true);
+    运行如上程序，您将会发现一个没有任何边框和标题栏的窗口显示在界面上了。但是这里需要注意的是，setUndecroated方法必须在 setVisible之前被执行，一定要确保Frame窗口是新创建并且没有做过任何显示，甚至是pack动作也不能做过，否则你会得到一个异常。
+    好了，完成一个任务之后，我们继续来讲述如何让窗口全屏幕显示，这个问题的解决思路非常简单，只要我们知道屏幕窗口的大小，然后将窗口的位置和大小调整到屏幕窗口的相同大小就全屏幕了。但是我们两种程序实现办法。
+    首先我们先看第一种：
+    程序代码如下：
+    JFrame f = new JFrame("test");
+    f.setUndecorated(true);
+    f.getGraphicsConfiguration().getDevice().setFullScreenWindow(f);
+    f.setVisible(true);
+    第二种办法如下：
+    JFrame f = new JFrame("test");
+    Dimension   screenSize   =   Toolkit.getDefaultToolkit().getScreenSize();
+    Rectangle   bounds   =   new   Rectangle(screenSize);
+    f.setBounds(bounds);
+    f.setVisible(true);
+    
+    
+    专业投机原理[美]维克多·斯波朗迪 
+    专业交易人士技术分析
+    
+    梅州说ibss的增量接口先多读2个字段,交接箱和分线箱的信息,不知道你会读这2个字段吗,
+    如果不会要和他联系一下看怎么开发或者开不开发
+    07532328808陈 
+
+
+
+2008-2-25 09:25下午
+深圳端口解析构造
+
+1 首先IBSS节点名称114首字母必须以A，Z，H三个字母开头，代表阿尔卡特，中兴，华为机型
+
+2 机架-机框-槽位-端口(RFSP)中的端口从IBSS端口号118中获取，
+  如果IBSS端口号118不带-号，那IBSS端口号直接作为RFSP的端口号
+  否则以IBSS端口号-号后的数值做为RFSP的端口号
+
+3 RFSP中的S槽位号直接引用IBSS板卡号121，数值必须是整数
+
+4 IBSS节点名称114信息原则上必须符合下列2种格式
+  a ***-F(数字)-S(数字)
+  b ***-F(数字)
+  其中***表示任意字符
+  如果符合a格式，那么解析得到的节点名称以***-F(数字)-S(数字)中的***部分表示
+                      解析得到的RFSP中的R机架以F(数字)中的数字表示
+                      解析得到的RFSP中的F机框以S(数字)中的数字表示
+  如果符合b格式，那么解析得到的节点名称已***-F(数字)中的***部分表示
+                      解析得到的RFSP中的R机架以-1表示
+                      解析得到的RFSP中的F机框以F(数字)中的数字表示
+  如果不符合a,b格式，并且它以A开头，代表阿尔卡特机型的节点名称
+                      解析得到的节点名称即等于IBSS节点名称114
+                      解析得到的RFSP中的R机架以-1表示
+                      解析得到的RFSP中的F机框以0表示
+
+5 华为机型的RFSP值修正(节点名称以H开头)
+       华为机型的RSFP中的R机架统一为0
+
+6 中兴机型的RFSP值修正(节点名称以Z开头)
+       a 中兴机型的RSFP中的R机架统一为0     
+       b 如果该节点名称属于ZXDSL8220机框(早期)，就是t_dts_ibss_dslam表里dslam_name列有解析后的节点名称    
+         并且上面第4步骤得到的RFSP中的F(机框)==1的话  
+         那么RFSP中的S槽位号在原来第3步的基础加1    
+         
+7 阿尔卡特机型的RFSP值修正(节点名称以A开头)   
+       如果第四部得到的RFSP值中R(机架)为-1
+           RFSP值中R(机架)值 = F值+1+(S-1)整除32
+           RFSP值中F(机框)值 = (S-1)整除16再除以2得到的余数+1
+           RFSP值中S(槽位)值 = (S-1)除以16的余数+1
+       否则    
+           RFSP值中R(机架)值+1
+           RFSP值中F(机框)值+1
+           
+           
+           中国首席健康专家万承奎教授已年过70，遇到有人问他多大时，他总是回答：“35岁”。万教授不仅有35岁的外表，而且因为他保持平和的心太和坚持长期锻炼，他的血压、血脂等各项指标以及心脏等各个脏器的功能，都和30多岁的年轻人没有两样。
+　　世界卫生组织曾经公布过这样一个数据：影响人类健康长寿的百分之十五决定于遗传，百分之十决定于社会因素，百分之八决定于医疗条件，百分之七决定于气候影响，百分之六十决定于自己。面对主观可以决定的百分之六十，我们能够做什么？万教授有诸多方法和建议。
+　　早晨起床：吃早饭等于进补药
+　　万教授说，早饭马虎，中午对付，晚上大吃大喝，这就是百病之根。早饭一定要是吃的，这是一日三餐最重要的一顿。早上吃好，中午吃饱，晚上吃少，一天的营养才能收支平衡。
+　　现在咱们中国人，百分之二十不吃早餐，百分之五十到六十不会吃早餐，早餐营养不好，中午，下午是补不上的。早饭是最重要的一顿饭，一定要吃营养早餐。营养早餐必须具备四样东西，牛奶、豆浆、鸡蛋或者肉、主食必须要有蔬菜加水果，假如两种以下的营养早餐，属于低质量早餐，
+　　管理自己的情绪要宣泄，不要发泄
+　　工作当中难免会遇到很多不顺心的事情，老板的责备，同事之间的嫉妒和猜忌，面对这些会影响自己的负面情绪，如何对待自己的情绪，也是保持健康身体亟待解决的难题。
+　　通常有两种方式来解决情绪上的问题：发泄和宣泄。那么，发泄和宣泄有什么差别呢？万教授说，发泄不对，生气发泄，发泄伤人伤己，宣泄才对，宣泄是高层次的，不伤人不伤己。生活中往往很多人口头说“我不生气，我不生气”，实际上是一种压抑，说是不生气，实际上人哪能不生气，人是感情动物，喜怒哀乐人之常情，中医叫“七情”喜怒忧思悲恐惊。“高兴就要笑，不高兴就要哭，生起气来还骂两句呢这是人的感情丰富的表现，假如人只有一种感情这个人不健康，有的人压抑抑郁，见谁都拉个脸，小心得抑郁症，一个人感情很丰富，该怎么样就怎么样，但千万记住：第一不要过度，第二是生气时间不要太长，很快就能调整过来，这才是健康的表现。”万教授说。
+　　“所以生气讲究方法，一定不要当情绪的俘虏，一定要当情绪的主人，一定要去驾驭情绪，不要让情绪驾驭你，记住情绪是人们生命的指挥棒，至关重要。”
+　　下班之后男士应酬少喝酒 女士需要勤锻炼
+　　现在生活好了，老年人寿命延长，婴儿死亡率降低。但还是出现了一些反常的现象：中年死亡率居高不下，中年企业家，中年知识分子，中年领导干部，还在一批一批匆匆而走，小孩有成年病，青年有老年病。针对这些现象万教授对现在流行的生活方式提出了自己的建议和忠告。
+　　对于很多男士下班之后，饭桌应酬自然酒也得天天喝。怎么对待喝酒的问题？万教授说，
+　　最不健康的生活方式，第一是吸烟，第二就是酗酒。过量饮酒，少量喝还有好处，比如每天喝白酒一两，喝葡萄酒尤其干红葡萄酒二两，啤酒半斤到一斤，过多了以后伤害身体。伤肝、伤脑、伤心、伤各个脏器，喝醉一次白酒等于得一次急性肝炎，喝酒不仅伤肝，而且认知能力下降，喝酒喝多了，大脑细胞大量死亡，一天一两白酒，这叫安全量。“一个人一定要从年轻开始，从健康开始，健康关键在于控制嘴多动腿，人就死在嘴上，人就懒在腿上。”
+　　对于很多女士而言，下班回到家中，窝在沙发上看电视，就再也不想爬起来运动运动了.“实际上必要的体育锻炼是延缓衰老的最好方式”万教授说。万教授提出的建议是，每天半个小时到一个小时，锻炼内容可以采取很多，最简单的办法就是走半个小时，这是最简单、最经济、最有效的办法。年轻人走要快走，逐步快走要一分钟达到130步，心跳要达到一分钟120次，才能达到锻炼心脏的目的，只要坚持半年，心肺功能可以大大提高提高30%到50%。
+　　万教授送出健康提示：
+　　为健康生活，每天必须做到的七件事：
+　　第一 一定要吃好三顿饭
+　　第二 一定要睡好八个小时觉
+　　第三 每天坚持运动半个小时
+　　第四每天要笑三十分钟
+　　第五 每天一定要会大小便
+　　第六 一定要跟爱人搞好关系
+　　第七 不吸烟 不酗酒 
+
+第一：开盘高开，10点整的时候，指数点位在高开点之上，收阳。
+第二：开盘低开，10点整的时候，指数点位在昨日收盘点位之上，收阳。
+第三：开盘平开，10点整的时候，指数点位在开盘点位之上，收阳。
+第四：开盘高开，10点整的时候，指数点位在开盘点位之下，昨日收盘点位之上，收盘带引线。  
+
+   User name（用户名）：DEMOY0FM
+    Password （密  码）：1dust2mop 
+    
+    6.为什么我播放“游戏录像”时报“错误的.dat或.exe文件？  
+答：这是因为你的帝国时代2是盗版的，而盗版的EMPIRE2.EXE文件大小各不相同，你的和录像录制时不同所致。现在有三种方法解决：
+    一是修改游戏纪录里的相关位置，使其与你用的EMPIRE2.EXE大小一致，记录位置是 [0h-3h]+14h， doubleword长度，把它改为你用的文件长度就行了，record game的格式:先看record文件的头4个字节，每个文件是不同的，例如  "d2 34 01 00"，那么就往下去看“134d2”这个地址，一般这个地址的值会是"f4 01",再往下数第20个字节，也就是 "134e6"这个地址的值，就是要改的地方了。这里存储record生成时的empires2.exe文件的大小，以字节为单位，共8个字节长度，把它改为你的empires2.exe文件的大小。例如你的empires2.exe文件的大小是2560100个字节，把它改为 "64 10 27 00 00 00 00 00"就行了；
+    二是把你的EMPIRE2.EXE改成现在大家通用的大小（2,560,045字节，即正版的EMPIRE2.EXE的大小。)可以下载那个字节数为2,560,045的EMPIRE2.EXE的文件即可！（推荐!）
+    三、下载录通用录象转换器，详见相关下载（推荐!） 
+    
+    103900001349
+bing133
+
+
+3-20-2008
+
+珠海的全量解析数据偏少原因主要是和节点解析有关
+分2种情况
+一种是SLOT名称不符合规格
+如行数据主要信息如下
+  节点:ZFSZ-V-V-S03
+  SLOT:S03
+  姓名：林泽荣
+  电话：2295123 
+  ACC_NBR:ZHSBR123
+由于科赛接口要求SLOT字段内容必须符合类似于"S11-lt3"这种格式，而本例缺少形如"LT+数字"这种信息，所以解析不能通过
+这种情况约占因节点无法导入的40%
+
+第二种情况是无法在补充表中找到机架信息
+   补充信息由本地表t_dts_ibss_dslam_zh提供
+   这种情况约占节点问题无法导入的60%     
+  	
+
+关于USB
+http://group.zol.com.cn/1/37_6428.html
+http://zhidao.baidu.com/question/13706977.html?fr=qrl
+http://zhidao.baidu.com/question/38176805.html?fr=qrl
+http://bbs.mydigit.cn/read.php?tid=19466
+http://bbs.wuyou.com/viewthread.php?tid=94246&extra=page%3D1
+http://bbs.mydigit.cn/read.php?tid=28302&fpage=0&toread=&page=1
+http://bbs.mydigit.cn/read.php?tid=32062
+http://os.deepin.org/read.php?tid=640413
+http://os.deepin.org/index.php
+http://x.discuz.net/84893/viewspace-4109.html
+http://bbs.mydigit.cn/read.php?tid=19466
+http://bbs.wuyou.com/viewthread.php?tid=106231&extra=page%3D1
+http://www.yanhai.org/?viewthread-1822.html
+http://bbs.wuyou.com/viewthread.php?tid=107115&extra=page%3D1
+http://bbs.wuyou.com/viewthread.php?tid=107344&extra=page%3D1%26amp%3Bfilter%3Ddigest
+http://bbs.wuyou.com/viewthread.php?tid=120458
+http://bbs.wuyou.com/viewthread.php?tid=115154&extra=page%3D2
+http://www.dvd0.com.cn/
+
+
+JAVA源程序不小心删除了怎么办，jad反编译工具
+今天我在写程序的时候以为是单元测试程序，不小心把原程序删除了，重写的话那不麻烦，只好到网找了下个反编译工具，发现反编译的程序既然比我原来写的精练，悲哀啊！
+JAD用法具体用法：
+
+http://www.kpdus.com/jad.html 官方最新版本，支持jdk1.6
+
+Java下的一个简单易用的反编译工具jad, 可以很方便的将.class反编译为.Java. 点击下载
+
+一、基本用法
+Usage:jad [option(s)]
+直接输入类文件名，且支持通配符，如下所示。
+c:\Java\>jad example1.class
+c:\Java\>jad *.class
+结果是将example1.class反编译为example1.jad。将example1.jad改为example1.Java即得源文件。
+
+二、Option -o
+不提示，覆盖源文件
+
+三、Option -s
+c:\Java\>jad -sJava example1.class
+反编译结果以.Java为扩展名。
+
+四、Option -p
+将反编译结果输出到屏幕
+c:\Java\>jad -p example1.class
+将反编译结果重定向到文件
+c:\Java\>jad -p example1.class>example1.Java
+
+五、Option -d
+指定反编译的输出文件目录
+c:\Java\>jad -o -dtest -sJava *.class
+
+该文章转载自网络大本营：http://www.haoad.net/Info/3883.Html
+
+　　反编译别人的程序是不对的，但是有时候由于某种原因，不得不反编译别人的代码，那就需要一个工具了。小颖JAVA源代码反编译专家V1.4终极版是个很好的工具，但是只能对JDK1.4.2和之前的版本编译的程序反编译，而JDK5.0后的就无能为力了，但是可以下载JAD.EXE来逐个反编译 CLASS文件，不过如果碰到有几十个或几百个文件夹，并且目录很深的时候，就麻烦了，这个给出一个直接使用命令行反编译整个目录的方法：使用jad批量反编译
+
+jad -o -r -sjava -d src bin/**/*.class
+
+src: 是反組後的目錄
+
+bin:指 package 開頭
+
+将bin里面所有的.class反编译到src下面JAD下载： 文件名: jadnt157.ziphttp://download.pchome.net/php/dl.php?sid=9111
+
+
+jad:反编译工具
+可以将class文件反编译成java文件
+假设将jad.exe安装在f:\java\jad目录下
+把要反编译的文件*.class复制到此目录下，接着接以下步骤，
+在命令行窗口环境中进入jad目录，
+然后运行：jad -s java *.class (附，*.class指要反编译的文件名)
+如果*.class文件和jad程序不在同一个目录，就要用到path环境变量，
+将jad 所在目录加到path路径中即可：set path=%path%;f:\java\jad
+若要了解jad更为详细的使用帮助信息，直接运行jad.exe查看
+
+以下假设jad.exe在c:\java目录下
+
+一、基本用法
+Usage:jad [option(s)]
+直接输入类文件名，且支持通配符，如下所示。
+c:\java\>jad example1.class
+c:\java\>jad *.class
+结果是将example1.class反编译为example1.jad。将example1.jad改为example1.java即得源文件。
+
+二、Option -o
+不提示，覆盖源文件
+
+三、Option -s
+c:\java\>jad -sjava example1.class
+反编译结果以.java为扩展名。
+
+四、Option -p
+将反编译结果输出到屏幕
+c:\java\>jad -p example1.class
+将反编译结果重定向到文件
+c:\java\>jad -p example1.class>example1.java
+
+五、Option -d
+指定反编译的输出文件目录
+c:\java\>jad -o -dtest -sjava *.class
+
+六、Option -r
+按*.class的包结构输出文件目录
+c:\java\>jad -o -r -dtest -sjava d:/1/**/*.class
+将d:\1\文件夹下的.class文件按照原程序的包结构反编译到test目录下。 
+
+UNIX95= ps -e -o pid,stime,pcpu,vsz,args
+UNIX95= ps -e -o "pid,pcpu,vsz,args"|sort -rn |more
+UNIX95= ps -e -o pid,stime,pcpu,vsz,sz,comm
+UNIX95= ps -el -o pid,stime,pcpu,vsz,comm,user
+UNIX95= ps -el -o pid,pcpu,vsz,comm,user 
+UNIX95= ps -e -o pid,pcpu,vsz,comm | sort -rn +2
+UNIX95= ps -e -o pid,pcpu,vsz,args
+UNIX95= ps -e -o pid,state,args HP
+UNIX95= ps -e -o state,comm,args,pcpu,vsz  HP
+UNIX95= ps -e -o pid,s,args Solaris
+UNIX95= ps -e -o s,comm,args,pcpu,vsz Solaris
+昨晚赶到12点前，我发了一个播客,时间仓促，没有校对，现将校对的稿重发。
+地震预报专家欲哭无泪
+：今天的强震有人预报
+中国科学院工程地质力学重点实验室 李世辉
+
+在西方现代科学技术主导下，破坏性地震（6级以上）的预报，特别是临震预报是不可能的。这是国内外地震主流的共识。从这个角度看，32年前的唐山地震和今天的汶川地震都是不能准确预报的。凤凰卫视“有报天天读”提到，有的报纸说唐山地震是 “三分天灾，七分人祸”， “时事辩论会主持人说，如果唐山地震时不拒绝外援，不会死几十万人。这些看法不符合实际。实际情况时，如果尊重中西文化优势互补的科学家的意见，这些灾难倒是可以避免的。请参阅本人博客上转载的和发表的有关文章。
+在中国，一批（1970年代）年轻的中国地震工作者学习中国传统文化的精华（包括充分利用历史文献记载和“取象比类”的方法等），取得遥遥领先国际的科研成果。例如，耿庆国根据历代（包括1950－1970年）大旱与地震关系的统计，发现“6级以上大地震的震中区,震前1－3.5年往往时旱区，旱区越大，干旱时间越长，相应的震级越高”的统计规律（公元512年－1879年中国大旱后的2－3.5年，发生了7此7.5－8级大地震）。1972年耿庆国提出 “旱震关系大地震中期预报方法”，根据这一规律，耿庆国预报了1975年的海城地震，特别时1976年的唐山地震。在1980年代出版了专著《中国旱震关系》（科学出版社）。这些成果触犯了地震界当权者的利益。耿庆国被调出预报队伍，去了地震报社。
+今天，2008年5月12日。听到四川汶川发生7.8级地震。中国的地震科学家耿庆国欲哭无泪，心里在流血。2006年他根据旱震关系提出中期预报。近年阿坝地区将发生7级以上地震。2008年4月26日和27日在中国地球物理学会下属的“天灾预测委员会”经集体讨论，作出“在一年内（2008.5－ 2009.4）仍应注意兰州以南，川、甘、青交界附近可能发生6－7级地震”的预报（文字报告已报中国地震局等。4月20日密件发出），而且，耿庆国根据强磁暴组合，明确提出“阿坝地区7级以上地震的危险点在5月8日（前后10天以内）”（以上地震预报三要素，震级、地点、时间均已明确）。明明时国宝，却受到当权的主流地震科学家的排斥，只能靠微薄的退休费坚持搞科研。可惜这位退休的地震科学家的话，没有起到应有的作用。我的感觉时满腔愤懑。什么时候耿庆国、汪成民、任振球、王迪兴等一批国宝才能不受排挤，得到国家资助，发开手脚为振兴中华效力呢？
+
+
+http://www.eygle.com/archives/2006/04/10g_session_wait_history.html   这是个ORACLE数据看表空间及死锁表的，文档。。
+有些语句如下：你参考着试一下。
+(2008-05-16 13:54:20)   独孤浪子(363132504)
+/Clect df.tablespace_name "表空间名",totalspace "总空间M",freespace "剩余空间M",
+            //round((1-freespace/totalspace)*100,2) "使用率%" 
+            //from (select tablespace_name,round(sum(bytes)/1024/1024) totalspace 
+            //from dba_data_files group by tablespace_name) df, 
+            //(select tablespace_name,round(sum(bytes)/1024/1024) freespace 
+            //from dba_free_space group by tablespace_name) fs 
+            //where df.tablespace_name=fs.tablespace_name; 
+  
+
+select event,p1text,p1,p2text,p2,p3text,p3,wait_time
+  2  from v$session_wait_history 
+
+oslevel -r
+bootinfo -y
+instfix -i | grep ML
+
+select  *  from  user_tables  where  table_name=upper('t_server_process')
+
+select a.scan_id,a.scan_result,a.scan_time ,
+b.scan_id,b.scan_result,b.scan_time ,(a.scan_time-b.scan_time)
+from t_scan_result a,t_scan_result b
+where a.config_id = b.config_id
+and a.scan_id!=b.scan_id
+and abs((a.scan_time-b.scan_time)*24*60)<5 
+and abs((a.scan_time-b.scan_time)*24*60)>1
+
+select to_date(cafinaltime,'YYYYMMDDhh24miss') cafinaltime from cdma_temp_data_0510
+
+oracle 
+select   *   from   user_tables   where   table_name   =upper('yourtablename')
+
+
+将GWT工程部署到Tomcat中
+2006-12-06　15:57:37
+ 
+大中小
+今天一直研究这个问题，网上也有些解决办法，但并不都是正确的，最后在google的网上论坛上找到了答案，我就照葫芦画瓢的做了下来，果然成了，下面介绍一下我的步骤：
+ 
+1. 在tomcat\webappa下建立一个文件夹ajaxdemo，把AjaxDemo工程下www\com.yangsq.DemoClient的所有文件都考到tomcat\webappa\ajaxdemo下，当然这些都是编译好的。
+ 
+2. 在tomcat\webappa\ajaxdemo下建立文件夹WEB-INF。
+ 
+3. 在tomcat\webappa\ajaxdemo\WEB-INF下建立文件夹lib和classes
+ 
+4. 将gwt-user.jar考到tomcat\webappa\ajaxdemo\WEB-INF\lib下。
+ 
+   注意：考完后，用WinRAR打开（不是释放），删除里面的javax文件夹。
+ 
+5. 将编译好的工程下的bin文件夹下的com文件夹考到tomcat\webappa\ajaxdemo\WEB-INF\classes下。
+ 
+6. tomcat\webappa\ajaxdemo\WEB-INF下新建一个web.xml（注意：不是copy工程下的那个，那个没用）
+  内容如下
+其中/getStringService要和DemoClient类里的路径定义一致，如下：
+String staticResponseURL = GWT.getModuleBaseURL();
+     staticResponseURL += "/getStringService";
+ 
+ 
+好了，启动你的tomcat吧，访问http://localhost:8080/ajaxdemo/DemoClient.html
+
+Deploy Google Web Toolkit(GWT) Applications using Tomcat
+http://privacymaker.info/index.php?hl=f5&q=uggc%3A%2F%2Fqrfvtanaqpbqr.oybtfcbg.pbz%2F2006%2F09%2Fqrcybl-tbbtyr-jro-gbbyxvgtjg.ugzy
+
+http://www.iocblog.net/static/2007/712.html
+
+A wtp project is composed of multiple units of functionality (known as facets). Take a look at Project Properties -> Project Facets panel. The java facet version needs to always match the java compiler compliance level. The best way to change java level is to use the Project Facets properties panel as that will update both places at the same time. Alternatively, when you get the error that you are referring to, there are quick fixes available to resolve it.
+
+- Konstantin
+
+
+无agent的可以看看设备是否支持snmp remote ping.
+或者自己开发agent.
+
+或者能够拿到erp表或者路由表也可以试试。
+
+http://72.52.151.186:8082/help/index.jsp     (gxthelpcenter)
+
+http://javascriptmvc.com/learningcenter/controller/index.html
+
+
+keytool -genkey -alias zjks -validity 3650
+connsis
+chenbing
+connsis
+connsis
+kunming
+yunnan
+cn
+
+[是]
+
+jarsigner topu.jar zjks
+
+select count( distinct(to_char(scts,'yyyy/mm/dd hh24'))) from sm_pas_cdr_0522 t
+
+select oa,msisdn,scts,status,wait_until from  sm_pas_cdr_0522 t
+where t.oa like ='86%'
+
+select count( distinct(to_char(scts,'yyyy/mm/dd hh24'))) from sm_pas_cdr_0522 t
+select substr(oa,0,4)  ,substr(oa,4,5) from  sm_pas_cdr_0522 t
+where substr(oa,0,4) in('0878','0888','0887','0883')
+and (substr(oa,4,5) ='10000' or substr(oa,4,5)='10001' or substr(oa,4,3)='168' or  substr(oa,4,3)='106') 
+
+select count(*) from  sm_pas_cdr_0522 t
+
+where (substr(oa,4,5) ='10000' or substr(oa,4,5)='10001' or substr(oa,4,3)='168' or  substr(oa,4,3)='106') 
+
+ps avg
+
+purge  recyclebin     删库里的临时表，，当DROP一个表的时候，这个表会放在回收站，是10G的新概念。。前面命令可以全部删之 
+
+
+delete  from t_sms_zonecount c
+where c.send_time >= to_date('2008-05-05 00','yyyy-mm-dd hh24') 
+and c.send_time <to_date('2008-05-22 00','yyyy-mm-dd hh24')
+
+
+
+(青山不改)  2008-05-30 17:39:16
+
+
+SELECT/*+ordered*/ dev_code,dev_line FROM ods.v_of_evt_dev_card_dzWHERE user_id = 772164620 AND dev_class = '01' AND dev_type_code||'' = '0002' 
+
+
+
+青山不改 16:29:30
+
+
+select /*+ordered*/ min(d.IP_ADDR_NO) IPFROM ods.v_of_evt_dev_card_dz a, ods.v_of_evt_data_port b , ods.v_of_evt_switch_relation_dz c, ods.v_of_evt_ip_addr_dtl d  WHERE a.user_id = 730539193 AND a.dev_class = '04' AND a.dev_type_code||'' = '0600' AND a.card_type = '1'  and a.RES_CODE=b.port_code   and c.res_code=b.switch_code and c.type_id = 'D0' AND c.rela_type_id = 'D4' and d.IP_ADDR_CODE=c.rela_res_code 
+
+青山不改 16:29:50
+涉及到v_of_evt_dev_card_dz的地方都要修改 
+
+
+Calendar now = Calendar.getInstance();  //今天
+now.setTime(dates);                                //设置启动日期
+for(int i=0;i<index;i++) {
+  Calendar date=now.clone();                  //初始化当天日期
+  date.set(Calendar.DAY_OF_MONTH, date.get(Calendar.DAY_OF_MONTH)+i);  //调整当天日期准确值
+  UTSmsAnalysis utsa = new UTSmsAnalysis(date);    
+  utsa.analysis();
+  System.gc();
+}
+
+注意：策略一旦成交，则需启用20点追踪止损，当盈利超过20点后将止损提到盈利+1点的位置，同时取消追踪止损；当盈利达到40点后将止损提到盈利+10点的位置直到目标位离场，其中目标一平仓70%，目标二平仓余下的20%，留10%去搏第三目标（如果有）。
+
+2008-7-12
+2835,2845,2976小背心

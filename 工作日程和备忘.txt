@@ -1,4 +1,4 @@
-26/12/2012  
+b26/12/2012  
     翔明 娄山关路站3号口 往南走，到仙霞路右转过谷北路对面鑫达大厦1005
             IP静态设置 192.168.2.169
             WIFI          xming/021-52110886
@@ -19,3 +19,25 @@
      D   空闲时间了解了MDD和CodeTool(AutoCoder ￥168)，看来对MDD方法要有个学习过程。
      E   申请github zingers bingchen211033 edaycc
           git@github.com:zingers/edaycc.git
+
+
+2012-12-28 10:39:02
+    **PhotonVPS**
+            选择3月Beam1套餐，$29.57，还不错，有个vps家了。
+
+    **项目准备**
+            vss帐号               ckgu/ckgu   ;   bchen/bchen
+            项目名                 佳能local wms的系统VSS
+            VSS目录               \\192.168.2.7\vss\local_wms
+            Java后台框架        \\192.168.2.7\vss\vss    
+                                        $/Xm_ERP/ 下面 /02_SA DOC/02_02.Framework
+            Java端DEMO       http://192.168.2.12/
+                                        Framework2 demo
+
+    **爱上海**
+            http://www.aishedes.com/
+
+    **软件工程**摘录
+
+    **python**shell
+    http://president.blog.51cto.com/4990508/1081542
