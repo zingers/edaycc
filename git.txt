@@ -66,6 +66,11 @@
                 git  remote -v   列出多个远程仓库
                 git remote rm pl
 
+**nutz**
+        cd e:/java/library/
+        git clone git://github.com/nutzam/nutz.git --depth=0
+        cd nutz
+        git cc
 **参考文献**
           http://www.yangzhiping.com/tech/github.html
                   此网页分析了github的一些特征
