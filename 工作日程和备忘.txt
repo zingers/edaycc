@@ -46,3 +46,31 @@ b26/12/2012
             在localWms这样的日本风格MIS系统里， 数据库设计构成了架构设计的主题，很多信息保存在项目管理人员记忆里
             而没有全盘的可视化的，清晰无歧义的图表和记录，字段的Option值承担了很多状态维护和业务分支的责任，
             详细不把这些搞明白，没法做。流程分支严重残缺，写道哪里，要去项目管理人员这里挤脑细胞。
+
+2013-1-3 9:40:58
+  **GFW**记录
+  功夫网与翻墙        http://www.chinagfw.org/
+  细节的力量            http://xijie.wordpress.com/page/31/?archives-listu0026archives-type
+  提供VPN                Amazon t1.micro   vps.me   StrongVPN
+
+2013-1-4 10:46:39
+    搭建Eclipse插件和项目环境
+    svn
+    m2e maven 
+    property file editor
+    Hibernate Tools
+    https://192.168.2.7/svn/trainning
+
+2013-1-7 10:37:28
+    修改Eclipse配置
+    构建SVN项目生产环境
+    布置XML解析技术研究
+    Redmine                             http://192.168.2.51:3000
+    Jquery  Schema 风格控制  jqgrid
+    双表头  隐藏列
+
+    **架构讨论**
+    Base ModuleAction 他抽象底层通讯   拦截器
+    一些通用方法
+    tiaojianbean CDBean invokerparameter
+    一个通用的JSP

@@ -1,0 +1,59 @@
+压缩文件
+    tar -czvf tmp.tar.gz tmp/*
+    tar -tvf quanguo_table.tar.gz  查看压缩包内文件
+    tar -xvf quanguo_table.tar.gz 智能解压
+    unzip -x -d -l file.zip    -x是直接解压，-d是带目录解压, -l是显示列表  
+    p7zip -d 解压缩 7za l 查看
+ 
+
+重启服务
+    /etc/init.d/mysql restart                #mysql
+    /etc/init.d/memcached restart
+    /usr/local/nginx/sbin/nginx -s reload    #一句话重启nginx  参考命令(/usr/local/nginx/sbin/nginx -h)
+配置文件
+    /usr/local/nginx/conf/nginx.conf 
+
+    查看进程 
+    ps -auwx | grep mysql
+    kill -9 `ps auwx|grep mysql`             #杀死找到的mysql进程 
+
+Find文件
+    find / -name \*.tar.gz
+
+查看端口
+    netstat
+
+SSH登录
+    ssh 211.155.231.211 -p 5200 (UNg#ie7y,rFP12u8Y@)
+scp -P 5200 *211:/home/frankyue/luobo.tar.gz .
+开机启动程序
+    more /etc/rc.d/rc.local
+
+SVN相关
+    svn post commit hooks
+    svn update /home/wwwroot/luoboxia
+    ssh -p 5200 www@211.155.231.202 svn update luoboxia
+    scp -P 5200 -R .svn wwww@211.155.231.202:/home/wwwroot
+
+SVN更换目录
+    svn switch --relocate svn://ip:port/luoboxia svn://ip2:port2/luoboxia
+
+改变文件属主
+    chown -R www *
+
+追加所在组
+    usermod -a -G root frankyue
+    然后/etc/sudoers 增加sudoers组的NOPASSWD：即可不用输入各种密码
+
+程序内查找
+    ack-grep "hash" --lisp
+创建符号链接
+# sudo ln -s /home/chenbing/studio/shell/svnupdate svnupdate
+
+配置网卡
+/sbin/ifconfig eth1 192.168.1.50 netmask 255.255.255.0
+
+Emacs Tramp sudo 系列
+  /sudo:root@hp540:/etc/php5/cgi/php.ini
+  /sudo::/etc/php5/cgi/php.ini   出来有提示的就是好的
+  /sudo:root@211.155.231.211#5200:/etc/passwd

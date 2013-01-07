@@ -1,0 +1,18 @@
+**Eclipse**
+    问题一：eclipse 中Package Explorer视图的字体太小
+    解决：桌面右键-属性-外观-高级-消息框，更改字体大小
+
+    问题二：eclipse菜单栏字体太小
+    解决：桌面右键-属性-外观-高级-菜单，更改字体大小
+
+    问题三：eclipse中的标签栏字体太小和XML，JSP文字太小
+    解决：这个需要在eclipse中进行设置
+    General
+              ------>Apperance
+                            ----->Colors and Fonts
+                                          ----------->Java
+                                                                      ---->Java Editor Text Font(overrides default:Text Font)
+
+                                          ----------->Basic
+                                                                      ---->Text Font
+                                                                      ---->Dialog Font

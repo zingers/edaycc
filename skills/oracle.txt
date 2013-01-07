@@ -1,4 +1,4 @@
-**rownum**
+﻿**rownum**
 	这是一个伪列，不能加任何表名前缀
 	rownum是记录集的序号，从1开始
 	=的话好像只能=1
@@ -12,3 +12,22 @@
 		select rownum, month, sell from sale order by month
 		RS按照月份从小到大排列整齐，但是rownum内容依然保持加入数据列的顺序
 		要达到两个rownum 和 月份都从小到大排列，那么要构建一个子查询
+
+**免客户端**
+	1 在http://www.oracle.com/technetwork/indexes/downloads/index.html
+	  下载Instant Client合适版本
+	2 解压后在相对目录下建立路径NETWORK/ADMIN
+	3 在新目录下建立tnsnames.ora
+	trading =
+         (DESCRIPTION =
+           (ADDRESS_LIST =
+             (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.2.11)(PORT = 1521))
+           )
+           (CONNECT_DATA =
+             (SERVICE_NAME = XE)
+           )
+         )
+	4 tnsnames.ora本质是定义一个或多个Oracle网络服务 net service
+	5 在PL/SQL Develper /Tools/Preferences菜单下Option或者Connection里配置
+          a. Oracle Home：c:\instantclient
+          b. OCI Library：c:\instantclient\oci.dll	
