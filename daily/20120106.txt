@@ -1,0 +1,355 @@
+
+2011-11-05
+今天和姚跃交流了alsa声卡的问题，bmark在pentadactyl的收藏夹问题和xecycle，经过实践:bmark -keyword xxx
+最简单，和山楂群讨论了第一个项目交易决策辅助系统的问题，反响不大，蓝哥也认为市场接受少。
+第二个实体企业信息化建设设计中心，蓝哥要问些企业老总
+
+2011-11-06
+
+<rryoumaa> and i think praise needs more glosses  [13:26]
+赞美需要更多的粉饰
+
+/msg nickserv register [password] [email] 
+
+  [14:38]
+<tali713> there seems to be something amiss here about what you are doing, but
+	  i will assume you have thought it through.  you might want to look
+	  at how eldoc works to see how it grabs the form.  may get you where
+	  you want to go.
+声卡
+<Evilkiss> chenbing: I don't use alsa, i use pulseaudio
+
+2011-11-07
+  安装了一个巨大的xmlto包，下载了alsa drivers试图编译。不知道xmlto本省是否包含Docbook,LaTex
+  C-z在一个xfce4桌面上找到下一个应用窗口
+  总算搞定了声卡设置alsamixer
+an_B> ah, I found a way to condense my apprehension
+<Charun> "You're totally right. You are an enormous asshole"
+
+关于修改键盘字符映射，你可以使用xdev plus xmodmap
+2011-11-10
+代码行数统计
+
+find ~/.emacs.d -type f -exec sed -e "s/(/(\n/g" {} + | wc -l
+
+
+20111117
+  今天搞了一些with-open-file的困惑和理解，pdf提供了emacs绑定hyperspec的方法
+事实上我已经下载了本地的HP,C-c C-d d也可以显示，但是还没达到pdf所说的境地，查找浏览器的符号
+
+20111118
+  今天看了宏扩展，floor系列，do宏，cond系列额，我原来看hyperspec确实不仔细，不过
+我也是不熟悉它的语法格式，理解加深了很多。特别是宏设计里，分量很重，多值返回的显示和获取也是一个点
+20111129
+> jaimef: most implementations have a file-contents function
+<pjb> (COM.INFORMATIMAGO.COMMON-LISP.CESARUM.FILE:TEXT-FILE-CONTENTS path)
+<chenbing> with-open-file
+<Blkt> good morning everyone  [19:40]
+<nikodemus> hakzsam: (write-string "foo" *file*) (write-char #\b *file*)
+	    (write-line "ar and a newline!" *file*)
+<nikodemus> hakzsam: see also fresh-line and terpri
+<nikodemus> and format, of course :)
+
+;;11.5 Precedence
+;;the point of precedence is to ensure that this happens in an intuitive way
+
+20111023
+drakma 抓取网页
+cl-store 实体化对象
+<pjb> I would rather write: (defmacro define-type-predicate (name type)
+      `(defun ,name (object) (typep object ',type)))
+<pjb> (define-type-predicate my-class-p my-class)
+
+20111126
+C-c C-u试试看能否终止死循环
+从erc里得到不少信息，关于perter siebel，关于planet lisp和xache的源码
+xache的网站是个好东西，siebel写的最有趣的程序员评选很乐
+
+20111128
+acl2注意观察了bst的实现，新的源码表示和书部分有出入，注意后即部分是否有
+书的新补充实现，源码表示里有点疑问
+
+20111130
+xach提供了一个随机数发生器mt19937
+总算把hyperspec搞定了C-c C-d h很不错的lynx显示，C-c C-d d是lisp vm自带的，原来
+在安装clisp之后，注解lisp文件，可以shell script了
+
+20112101
+ucw prog1 yield 1+ M-x customize-group ret browse-url ret
+有点明白buf那一段的意思了，在第一个字符核对上以后就要放入buff
+直到后即的字符们证明是完全匹配还是部分匹配了
+如果完全匹配，那么全部初始化
+如果部分匹配，那么前面的第一个则都不需要了；pop之，然后定位器改变了
+又不能完全清除前面的，因为待处理old串可能有连续的几个相同字符
+ 
+20111204
+ ^@ is a control character for #\Nul  [16:48]
+<stassats> http://en.wikipedia.org/wiki/Caret_notation  [16:50]
+<Zhivago> chenbing: Do you know CLX?  [16:51]
+<chenbing`> Zhivago: I don't yet
+<Zhivago> chenbing: Then forget about keysyms and keycodes.  [16:52]
+<Zhivago> chenbing: You're just dealing with characters from the terminal, not
+	  X11 keys.
+<Zhivago> When you say (make-string 10) it makes a string with some default
+	  character. In your case, it used #\Nul.  [16:54]
+对脱字字符，在ascii编码中非显示的控制字符有了初步的了解
+
+20111205
+<chenbing> how to detach a global-varibal from symbol?  [17:30]
+<chenbing> avoid restart slime
+<gaidal> Does anyone run swank inside a vbox and know how to connect to it
+	 with slime?
+<pjb> You may either (makunbound '*variable*) or (unintern '*variable*)
+      depending on what you mean by "detach a global-variable".
+<pjb> chenbing: notice that in both cases, this doesn't remove the special
+      declaration of the symbol!  [17:31]
+<pjb> (but with unintern, it doesn't matter if you re-read the code that use
+      that symbol).  [17:32]
+ERC> <chenbing> I want to a variable dispear throughly  [17:33]
+<pjb> chenbing: things don't disapear in lisp.
+<stassats`> unintern usually removes specialness
+<H4ns> gaidal: i do.  what do you want to know?
+<pjb> The only thing you can do is to forget them, so that eventually the
+      garbage collector may reclaim their memory.
+<pjb> stassats`: you must reread the code that use the symbol of same name!
+								        [17:34]
+<pjb> unintern doesn't remove the specialness.
+<pjb> (defvar *a*) (defun g () (print *a*)) (defun f () (let ((*a* 42)) (g)))
+      (unintern '*a*) (f) --> 42  [17:35]
+<pjb> chenbing: How many times do we have to tell you that you must not change
+      literal data!  [18:18]
+<gaidal> stassats`: now it runs init.lisp which starts swank and the whole web
+	 server thing; I could put swank-loader there instead but I still need
+	 to start the web server  [18:19]
+<stassats`> gaidal: well, if it works for you now and you don't really know
+	    what you're doing, then leave it be  [18:20]
+关于字面量和那段程序的bug问题单独计入literal文件
+
+20111206
+S-sql的出处
+<H4ns> chenbing: http://marijnhaverbeke.nl/postmodern/
+
+<H4ns> chenbing: yes and no.  s-sql is separate from postmodern.
+html maps with cl-who?
+https://gitorious.org/com-informatimago/com-informatimago/blobs/master/common-lisp/html-generator/html-generators-in-lisp.txt
+html模板
+
+C-c M-m :M-x slime-macroexpand-all
+C-c C-m :M-x slime-macroexpand-1
+<loke> you can quickload the package macroexpand-dammit  [23:45]
+<loke> it handles compiler macros too
+
+20111209
+pjb提到了condtions system ，这在pcl里也有精彩的论述
+http://chaitanyagupta.com/lisp/restarts.html
+
+20111215
+    彻底晕倒，msyqldump是导出专用， 要回复是要mysql database<file
+  这个问题能出错真是难为自己了，搞这么被动和损失
+  登录root@mysql
+  purge master logs before '2011-12-16 00:00:00'
+  skip-innodb
+  masterip改为公网ip
+  取消slave的binlog
+  expire_logs_day=4
+
+20111216
+  巩固了复制和性能优化之mysql
+  改写脚本bashrc
+  dl-search不是递归版本
+  slime-compile-file-options is a variable defined in `slime.el'.
+Its value is nil
+  我们可以自己设定这个值得，指定fasl文件产生位置
+
+20111217
+  今天很顺利得改写了doublelinklist.lisp
+  顺便对递归的编程也加强了
+  Nick Levine的Emu书很值得期待 
+2011219
+ 我做的就是在VPN Server上设置了SNAT，然后客户端固定的IP就可以通过VPN server连上公网了，但是因为iptables限制，只能连指定的公网地址
+ call a stored procedure in postmodern? if i
+       have a function defined in pl/pgsql for an upsert, how do i call it?
+       select foo(a,b) --> (:select (____))  ?
+<oGMo> no idea, one reason i didn't really bother
+<Xach> emit: (:select (:foo a b))
+<Xach> emit: unknown operators are treated as function calls by default.
+<Xach> emit: you can see what translates to what by doing (s-sql:sql-compile
+       '(:select ...))  [23:53]
+<Xach> Or just (s-sql:sql (:select ...))
+pjb又在提示html模板了
+<pjb> oGMo: for me, it's superseded by
+      COM.INFORMATIMAGO.COMMON-LISP.HTML-GENERATOR.HTML, but I must be the
+      only one to use that...  [23:56]
+<pjb> oGMo: have a look at
+      https://gitorious.org/com-informatimago/com-informatimago/blobs/master/common-lisp/html-generator/html-generators-in-lisp.txt
+
+
+2011-12-21
+  继续练习总结asdf-quicklisp-quickproject-buildapp
+  52主机健康检查和数据回复
+  sqlmode复习
+
+2011-12-23
+ with system:iterate there is some syntaxs like (for (k,v)
+  in-hashtable ht1), we can recogize exported symbols from
+  #:iterate( for in iter...). I wonder where 'in-hashtable comes
+  from? I can't locate it in Hyspec nor packlisp_interate
+Configuring extundelete 0.2.0
+$ sudo aptitude  install build-essential e2fslibs e2fslibs-dev ext3grep
+$ sudo ./configure
+$ sudo make
+cp /tmp/extundelete-0.2.0/src/extundelete /bin/
+sudo extundelete /dev/sda9 --restore-all
+
+2011-12-24圣诞快乐
+xache beane为了简化SYS设置，指系统从哪里设置sbcl源码路径，增加了
+(setf sb-ext:sbcl-source-location)扩展sbcl功能
+http://comments.gmane.org/gmane.lisp.steel-bank.devel/16389
+ (defun (setf sbcl-source-location) (pathname)
+    (let ((truename (truename pathname)))
+      (setf (logical-pathname-translations "SYS")
+            (list
+             (list "SYS:SRC;**;*.*.*"
+                   (merge-pathnames #p"src/**/*.*" truename))
+             (list "SYS:CONTRIB;**;*.*.*"
+                   (merge-pathnames #p"contrib/**/*.*" truename))
+             (list "SYS:OUTPUT;**;*.*.*"
+                   (merge-pathnames #p"output/**/*.*" truename))))))
+从这个函数草稿看出，truename是一个重要的路径转换函数
+
+CL-USER> *DEFAULT-PATHNAME-DEFAULTS*
+#P"/home/chenbing/personal/"
+lisp的当前目录
+比如你在不同的目录下启动sbcl，输入*D-P-D*就好像就好像pwd命令一样，unix是cwd，应该是cwd阿，为啥是pwd，:-)
+
+
+2011-12-28
+(sb-ext:set-sbcl-source-location "/usr/local/src/sbcl1054")
+;; => (("SYS:SRC;**;*.*.*" #P"/usr/local/src/sbcl1054/src/**/*.*")
+;;     ("SYS:CONTRIB;**;*.*.*" #P"/usr/local/src/sbcl1054/contrib/**/*.*")
+;;     ("SYS:OUTPUT;**;*.*.*" #P"/usr/local/src/sbcl1054/output/**/*.*"))
+补充，放入.sbclrc的是非注释部分，之前搞反了
+xache提出的配置源码路径的方式，之后就可以M-,看源码了
+
+2011-12-31
+那个短信平台发送要建立软件应用才能实现自动发送功能，否则要人工审核
+pcl数字和字符串章节整合到acl例文里面，计划
+然后loop和format章节单独专题
+然后复习一下测试框架
+然后要整合项目构建和基础类库，然后开始看onlisp和letsoverlambda
+
+php-webservice
+首先通过phpinfo确保libxml和xml-enable
+--with-rpc-xml[=dir],windows可以配置php.ini 反注释一行
+想起来了，我们不需要用户上行短信回复，这个问题可以变简单了
+只要用户输入手机号码，然后获取验证码，4位随机数值rand[1000,9999]就通过api模式发给用户
+并且服务器端保存在session或者memcach中已备核实
+，然后用户在网页上输入手机收到的随机验证，如果服务器验证接受post值和session一致就通过手机验证
+，更改profile字段为通过verified
+
+
+2012-01-01
+  录制emacs宏,f3 c-a " m-f " c-n f4
+2012-01-06
+  http://localhost:8080/alternativesms/NewServlet
+测试通过了servet版本的移动短信接口下发webservice客户端请求
+然后接下去把php页面联合调试弄好
+2012-01-07
+  把cherokee主vps从/var/www 定位到/home/chenbing/project/luoboxia/web
+并且加入php支持
+
+2012-01-08
+  cherokee基本安装好以后，参考http://www.howtoforge.com/installing-cherokee-with-php5-and-mysql-support-on-debian-squeeze
+
+  配置php附加模块
+  sudo aptitude install php5-mysql php5-memcached php5-memcache php5-xmlrpc php5-xsl php5-mcrypt php5-ffmpeg
+
+  修改/etc/php5/cgi/php.ini
+  反注释 fixpath一行
+  
+  还是得把数据库配置定向到8luobo.mooo.com阿，不然链接都错了
+
+  不幸误删除了loop.lisp还好基本知识点我都记得了
+
+2011-01-10
+  增加了202的frankyue加入sudo组，练习了一下vi的yy,dd和p :wq!
+  明天要设置一下桥接路由器
+  下载了idea10倒是破解了，但是好像red5的插件还不是正式的，自己的老的profile没有本机备份
+  根据1分走势来高低箱体有了更深的感悟，走，留结合的不够专业还，今天确实涨功夫了，进入的技巧高3点，出的技巧看有无新高低点
+  手机验证功能上线，明天要关注一下管理员权限组不受这个限制
+  eclipse也算下载好了，这个该死的大笨货
+    然后在release update站点下安装web-j2ee插件，然后增加站点
+    Name: Red5Plugin 0.2.x (Eclipse 3.2+)
+    URL: http://trac.red5.org/chrome/site/projects/red5plugin/update_0.2.x/
+    然后就可以方便的写red5和flex mxml了
+    chmod 755之后 ./red5.sh，启动了自包含的tomcat服务
+    http://localhost:5080/
+    red5/conf/red5.propertes指定了启动端口
+    netstat -ant 可以检查启动端口
+
+2012-01-11
+  mxmlc,折腾一番，终于能编译flex到swf了
+  经过eclipse和idea一番折腾，基本搞懂开发配置的问题了
+2012-01-13
+  按照这个视频 http://nocreativity.com/blog/getting-started-with-red5
+    用Eclipse的Red5插件来start 一个red5项目确实是简单方便的，
+  为了配置的简单，我还设置了/Applications/Red5的符号链接，模拟一下mac darwin的路径
+    1 装好eclipse含j2ee以后，安装好插件，然后新建立一个Dynamic Web Project
+    2 此时，如果Configuration一区域按照记性选择了default configuration for Red5 Server Runtime
+      而Runtime就是编译或者下载好的Red5 Server目录， 不正确的话， 在顶上会有提示
+    3 我们来修改一下这个缺省的运行期配置，选上"Red5 Application Generation"，帮我们生成一些文件和配置
+      在运行期环境选择一个"infrared5-RedServerRuntime", 现在runtime目录就不需要更改了，因为
+      作过了符号链接配置
+    4 项目文件夹自定义到 /home/chenbing/studio/java/red5awesomeness
+      主要我为了自己目录文件系统的一致性
+    5 TargetRuntime现在就是显示为刚建立的"Red5 Server Runtime2",然后一路next直到结束
+      有意思的是Eclipse现在对于web项目也是自己建立一个WebContext目录，而发布和部署时候会生成单独的war
+      路径也会有所不同，可能之前就是这样，但是以前都是直接建立java project也许
+    6 然后看到建立了Red5Awesomeness和Red5Awesomenessclient，恶心的是这个client子项目是建立在
+      ~/.workspace里面的，根本没问我，所以我们还是和作者一样删除之。
+      作flex还是idea方便大概，要么flexbuilder
+    7 然后由于src是默认的源码路径，在下面配置了一个自带的org.red5.core.Application
+      值得高兴的是，配置文件里面也生成好了相关的配置
+    8 webcontent/web-inf/red5.properties里把虚拟主机配置ip改成自己的
+      如192.168.1.30,自带的是192.168.1.2
+      web.handler的bean class也设置为了这个自动生成的类，一切就绪。
+    9 接下来要配置debug server，这里会包含一些runtime的具体命令，启动，停止，主目录
+      由于建立了符号链接，基本都很简单，不用重复了
+      这个插件如果足够智能的话，应该会自己根据runtime主配置来动态修改路径
+    10 点虫子图像debug-run on server
+       有出现了server-type，red5 runtime server的选择，这里可以把之前的旧配置修改删除，
+       选择正确的配置，一路next,三个命令都不用再设置了。然后项目开始build和启动tomcat测试debug，
+    11 最后打开了web网址，因为没有配置过页面，出错没有问题，tomcat context已经报告启动安装成功了。        
+    12 build项目之后，bulid目录下生成了class文件，再点击publish就真正的复制到server webapps下面
+
+   **关于oflaDemo和demos的问题
+　　　　根据http://8luobo.mooo.com/yanfa/web/flex/anzhuangoflademoheqita
+　　　　原文需要翻墙浏览<chefan> chenbing: http://blog.snolde.com/?p=92 maybe?
+     下载而来的war如果解压在Red5Server上，会和主server冲突，只是把首页Red5搞坏掉了，但是
+　　　　http://localhost:5080/demos/ofla_demo.html反而是可以访问的，看来单独装在tomcat里更好
+     看到avatar.flv和toystory3.flv了，不错
+　　　　关于视频播放的源码，教程里也有，倒是不太担心这个war里没有源码了
+　　　　而视频文件是放在oflaDemo/streams目录中. web.xml指定了这个目录不能被http访问
+　　　　    <bean id="demoService.service"
+	    class="org.red5.server.webapp.oflaDemo.DemoService" />
+　　　　这个是red5-demo里除了handerBean之外定义的类，负责播放
+     播放视频最简单的模式是，把视频放入oflaDemo的streams目录里，然后只要客户端指定文件流名即可
+   **关于Red5服务器开发的研究
+     首先最重要的是那个ApplicationAdapter类，一般web.handler Bean都会继承这个类
+   插件生成的也是这个类的子类
+     首先，这个子类当然可以自定义方法，然后被客户端所调用，这个是很有用的特性
+     如果，这个类有构造函数，构造函数在安装red5时候，就是启动tomcat时候就运行了
+       说明这个类是起到守护进程Daemon的效果
+     public boolean appConnect(IConnection conn, Object[] args)
+       这个方法是客户端连接请求过来时候，自动调用的方法，可以在里面决定是否接受连接
+     public boolean connect(IConnection conn, IScope scope, Object[] params)
+       这个方法是视频教程源码里的控制连接的方法，看起来更底层一些，但是作用应该和上面的类似
+
+2012-01-16
+  今天总算比较圆满的调试通过了流媒体播放控制，哈哈
+  <daimrod> chenbing: iirc there is something like autocomplete-slime which
+	  works with autocomplete.  [22:31]
+<kennyd> chenbing (setq slime-complete-symbol-function
+	 'slime-fuzzy-complete-symbol)
+  这段提示是那段很酷的缩写自动展开输出 f-u-b fork-user-baby
+  终于继续开读format一 章了
