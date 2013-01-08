@@ -74,3 +74,25 @@ b26/12/2012
     一些通用方法
     tiaojianbean CDBean invokerparameter
     一个通用的JSP
+
+    **xstream**
+        0  根节点 = fullpath Class  
+        1 内置类型例如Int, String  
+            存在于所在类名的根元素下面
+            member名=节点名， member值=节点值
+        2  非内置类型如PhoneNumber phone
+                                                             .code
+                                                             .number
+            那么code，number这些自定义类型成员构成节点组
+            节点在phone节点之下
+            phone节点与member所对应的节点平行，位于主类节点之下
+        
+        3 序列化方法
+            序列化是指从PO到XML字符串的cast
+            反序列化是逆向操作
+            序列化方法：xstream实例.toXML(主类实例) 
+
+2013-1-8 10:37:59
+        Jetty for indigo 
+              1  wtp-adaptor http://download.eclipse.org/jetty/updates/jetty-wtp            
+                    
