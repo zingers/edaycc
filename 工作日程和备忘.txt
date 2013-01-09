@@ -1,4 +1,4 @@
-b26/12/2012  
+﻿b26/12/2012  
     翔明 娄山关路站3号口 往南走，到仙霞路右转过谷北路对面鑫达大厦1005
             IP静态设置 192.168.2.169
             WIFI          xming/021-52110886
@@ -101,5 +101,17 @@ b26/12/2012
 
 2013-1-8 10:37:59
         Jetty for indigo 
-              1  wtp-adaptor http://download.eclipse.org/jetty/updates/jetty-wtp            
+              1  wtp-adaptor http://download.eclipse.org/jetty/updates/jetty-wtp  
+	        xstream配合约定命名约定方案，读写xml初步成功
+        明天开发框架思想
+            利用Java POJO (Hibernate Java EntityBean)的反射信息
+            List fields = BeanUtils.getProperties(POJO.class);
+            List sortedFields = fields.sort();   //利用jdk自带集合排序功能，指定唯一性的已排序field
+            Field如果是string和int的话（包括日期，时间戳等常见几种内建基础数据）
+                  反射机制自动对他们赋值
+            Field如果是自定义类型的话，另外一个POJO
+                   那么其实相当于交换xml文档流嵌套了一层List
+            Field如果是自定义类型的集合的话
+                    那么相当于交换xml文档流嵌套了两层list
+            大致思路如此， 这是他们希望的实现机制          
                     
