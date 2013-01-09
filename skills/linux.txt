@@ -47,6 +47,7 @@ SVN更换目录
 
 程序内查找
     ack-grep "hash" --lisp
+    ack-grep "chrome|idea" **/*
 创建符号链接
 # sudo ln -s /home/chenbing/studio/shell/svnupdate svnupdate
 

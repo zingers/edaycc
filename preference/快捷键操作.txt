@@ -1,0 +1,82 @@
+﻿                          常见快捷键操作
+google chrome浏览器
+     C-tab     C-shift-tab
+     C-[1-9]  C-9
+     以上4个快捷键和切换标签页有关 前两个前后切换  
+                                                     第三个切换到指定顺序标签页  第四个切换到最后一页
+     C-n 新开浏览器窗口  C-w关闭当前标签页   C-t 新开标签页
+     安装了swiftsoft网站的插件之后 
+     ALT-G  呼出带数字标示的超链接  只需要输入数字即等同鼠标点击页面
+    
+     C-f  搜索   C-g 搜索下一条匹配  C-shift-g 上一条匹配
+     C-l   高亮显示url
+     输入bing tab 关键字  使用其他搜索引擎
+     输入网址中心内容  C-enter 补全www和.com
+
+gnome和nautilos快捷键
+ALT + Left/Right：在Nautilus导航文件夹时执行回退/前进操作
+ALT + Up/Down：在Nautilus导航文件夹时执行向上/向下操作
+ALT + Home：跳转至家目录
+C-A-T  ： 启动terminal
+ALT+ F1：启动程序菜单，这可能我平时用得最多的
+ALT + Enter：显示文件/文件夹属性
+ALT + F2：启动“运行应用程序”对话框
+ALT + F4：关闭窗口
+ALT + Tab : 浏览窗口
+Shift + Del：不通过回收站，直接永久删除文件
+F2：重命名文件/文件夹
+F3：启动Nautilus的分割浏览
+F8：显示/隐藏Nautilus菜单栏
+F9：切换Nautilus侧栏
+Super + Tab：“Shift切换”，需要在CCSM中启动
+Super + M：反转所有颜色
+Super + A或W：分组排列窗口（需要Compiz）
+CTRL + L：浏览/编辑完整位置路径
+CTRL + A：全选
+CTRL + N：新窗口
+CTRL + Shift + N：新文件夹
+CTRL + H：显示隐藏文件/不显示隐藏文件
+CTRL + ALT + L：锁定屏幕
+当然啦，您可以自行指定快捷键。比如我使用CTRL + ALT + M来启动终端。您可以在这里指定快捷键：System – Preferences – Keyboard Shortcuts。
+
+
+IntelliJ Idea 常用快捷键列表
+Alt+1               快速打开或隐藏工程面板 
+Alt+ left/right   切换代码视图
+Alt+ Up/Down  在方法间快速移动定位
+Alt+回车          导入包,自动修正
+Ctrl+N             查找类
+Ctrl+Shift+N   查找文件
+Ctrl+Alt+L      格式化代码
+Ctrl+Alt+O      优化导入的类和包
+Alt+Insert       生成代码(如get,set方法,构造函数等)
+Ctrl+E或者Alt+Shift+C  最近更改的代码
+Ctrl+R 替换文本
+Ctrl+F 查找文本
+Ctrl+Shift+Space 自动补全代码
+Ctrl+空格 代码提示
+Ctrl+Alt+Space 类名或接口名提示
+Ctrl+P 方法参数提示
+Ctrl+Shift+Alt+N 查找类中的方法或变量
+Alt+Shift+C 对比最近修改的代码
+ Shift+F6  重构-重命名
+Ctrl+Shift+先上键
+Ctrl+X 删除行
+Ctrl+D 复制行
+Ctrl+/ 或 Ctrl+Shift+/  注释（// 或者/*...*/ ）
+Ctrl+J  自动代码
+Ctrl+E 最近打开的文件
+Ctrl+H 显示类结构图
+Ctrl+Q 显示注释文档
+Alt+F1 查找代码所在位置
+Ctrl+Alt+ left/right 返回至上次浏览的位置
+Ctrl+Shift+Up/Down 代码向上/下移动。
+F2 或Shift+F2 高亮错误或警告快速定位
+ 
+代码标签输入完成后，按Tab，生成代码。
+选中文本，按Ctrl+Shift+F7 ，高亮显示所有该文本，按Esc高亮消失。
+Ctrl+W 选中代码，连续按会有其他效果
+选中文本，按Alt+F3 ，逐个往下查找相同文本，并高亮显示。
+Ctrl+Up/Down 光标跳转到第一行或最后一行下
+Ctrl+B 快速打开光标处的类或方法 
+
