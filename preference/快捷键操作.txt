@@ -1,5 +1,48 @@
 ﻿                          常见快捷键操作
-google chrome浏览器
+Eclipse
+     Ctrl + M                           最大化Tab                             最大化和还原窗口
+     Ctrl + F6                          切换编辑文件Tab                  好像和Ctrl - PageUp/PageDown类似
+     Ctrl + F7                          切换视图                                可以从Editor跳到Package Explorer , 
+     Ctrl + F8                          切换Perspective                  和上面的类似
+     Ctrl + E                            激活Editors列表
+
+     Ctrl + F11                        运行上次应用程序         
+     F11                                   运行上次Debug             
+     Alt + Shift + X                运行系列后选择
+     Ctrl - D                             删除当前行
+     Alt - Up /Alt - Down      移动选择行
+     Alt + Shift + J                 add java comments
+     Ctrl + Shift + /                块注释
+     Ctrl + /                             行注释
+
+     Alt - Left/Right              返回上次/当前编辑地点 
+     Ctrl + 1                            激活快速修正                        如未实现接口，改变成员Scope
+     Ctrl + Shift + T               打开Type
+     Ctrl + I                              修正缩进
+     Ctrl + Shift + F                Format代码
+     Ctrl + Shift + O              组织 imports 
+     Ctrl + J                             增量式搜索
+     Ctrl + Shift + L                显示shortcut列表
+     Alt + Shift + R                Refactor->Rename.
+     Alt + Shift + V                Refactor->Remove.
+
+     通过Preference-Keys自定义Bind 
+      Ctrl + Shift + G               generate setters and getters
+      Ctrl + Shift + F                通过Fields生成构建方法
+      ALT + C                            SVN/CVS "Commit".
+      ALT + U                            SVN/CVS "Update"
+      Ctrl + Shift + N               new Class Wizzard
+              Alt + E                       选择父类
+              Alt + A                      选择接口to implements
+              Alt + F                       生成Java类
+       F10                                    运行当前程序
+       F9                                      运行JUnit
+
+      提示mouse动作快捷键的插件MouseFeed
+      http://www.mousefeed.com/
+      该插件还可设定强制使用shortcut列表
+
+Google Chrome浏览器
      C-tab     C-shift-tab
      C-[1-9]  C-9
      以上4个快捷键和切换标签页有关 前两个前后切换  
@@ -13,7 +56,7 @@ google chrome浏览器
      输入bing tab 关键字  使用其他搜索引擎
      输入网址中心内容  C-enter 补全www和.com
 
-gnome和nautilos快捷键
+Gnome和nautilos快捷键
 ALT + Left/Right：在Nautilus导航文件夹时执行回退/前进操作
 ALT + Up/Down：在Nautilus导航文件夹时执行向上/向下操作
 ALT + Home：跳转至家目录
