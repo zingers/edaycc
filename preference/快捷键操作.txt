@@ -1,10 +1,18 @@
 ﻿                          常见快捷键操作
 Eclipse
      Ctrl + M                           最大化Tab                             最大化和还原窗口
-     Ctrl + F6                          切换编辑文件Tab                  好像和Ctrl - PageUp/PageDown类似
+     Ctrl +Page Up/Down    切换编辑文件Tab         
      Ctrl + F7                          切换视图                                可以从Editor跳到Package Explorer , 
      Ctrl + F8                          切换Perspective                  和上面的类似
      Ctrl + E                            激活Editors列表
+     Ctrl + Shift + T               搜索和打开Type
+     Ctrl + Shift + R               搜索和打开Resource
+
+     Alt - Left/Right              返回上次/当前编辑地点 
+     Ctrl + J                            增量式搜索
+     Ctrl + O                           filter风格查找内容，如member
+     Ctrl + O  Ctrl + O           两次会允许查找父类元素
+     Ctrl + T                            Goto SuperType or SubType
 
      Ctrl + F11                        运行上次应用程序         
      F11                                   运行上次Debug             
@@ -15,13 +23,10 @@ Eclipse
      Ctrl + Shift + /                块注释
      Ctrl + /                             行注释
 
-     Alt - Left/Right              返回上次/当前编辑地点 
      Ctrl + 1                            激活快速修正                        如未实现接口，改变成员Scope
-     Ctrl + Shift + T               打开Type
      Ctrl + I                              修正缩进
      Ctrl + Shift + F                Format代码
      Ctrl + Shift + O              组织 imports 
-     Ctrl + J                             增量式搜索
      Ctrl + Shift + L                显示shortcut列表
      Alt + Shift + R                Refactor->Rename.
      Alt + Shift + V                Refactor->Remove.
@@ -43,13 +48,14 @@ Eclipse
       该插件还可设定强制使用shortcut列表
 
 Google Chrome浏览器
-     C-tab     C-shift-tab
+     Ctrl - Tab     C-shift-tab    新开标签
+     Ctrl - W       关闭
+     Ctrl - N        新浏览器窗口
      C-[1-9]  C-9
      以上4个快捷键和切换标签页有关 前两个前后切换  
                                                      第三个切换到指定顺序标签页  第四个切换到最后一页
-     C-n 新开浏览器窗口  C-w关闭当前标签页   C-t 新开标签页
-     安装了swiftsoft网站的插件之后 
-     ALT-G  呼出带数字标示的超链接  只需要输入数字即等同鼠标点击页面
+     安装了KeyBoardNavigation插件  按键“，”显示数字
+     只需要输入数字即等同鼠标点击链接
     
      C-f  搜索   C-g 搜索下一条匹配  C-shift-g 上一条匹配
      C-l   高亮显示url

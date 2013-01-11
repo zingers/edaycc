@@ -13,3 +13,6 @@
 	 	该篇讨论需求分析的5个常见错误，以及一些讨论
 	http://www.unpack.cn/thread-70349-1-1.html
 		这是国内发布的一个代码生成器的列表，auto code也是MDSE的一个重要部分，属于可自动生成的部品
+
+**每日构建**
+	Jenkings
