@@ -1,0 +1,130 @@
+**debian6新人起步**
+作者：管理员 — 上次修改时间: 2011-11-30 16:19
+1 插入cd  reboot pc 自动进入安装模式
+2 安装过程中某一步选择镜像ftp.cn.debian.org,
+  相对目录自动为'/debian/'，检查下网站无错误即可
+
+3 安装附加软件包时候我之选择了‘笔记本模块’和‘基本模块’,没有装'图形界面'是因为觉得gnome和kde对于我的老手提过于庞大了
+
+4 安装完毕后，重启电脑
+   sudo apt-get update sudo aptitude install apt-spy
+     2)更新软件包列表并安装apt-spy
+        apt-get update
+        apt-get install apt-sp
+
+     3)自动下载列表并使用apt-spy测试最快的源
+       apt-spy update
+       apt-spy -d stable -a asia -t
+
+     4)查看生成的配置文件，里面是最快的源
+       cat /etc/apt/sources.list.d/apt-spy.list
+       mv and cp
+5 安装xfce4图形界面
+    A su进入超级用户，aptitude install xorg
+      (get a bare minimum base install of X)
+    B To install Xfce, 输入
+      aptitude install xfce4
+    C 附加组件
+      aptitude install xfce4-goodies
+ 
+
+6 然后重启电脑就是图形xfce4x的界面了，比较简洁，不华丽
+  默认的web浏览器好像有问题，不能使用，文件浏览器也不能当web浏览器那样输入，
+  apt firefox，据说debian版权关系，只能apt-get inatall iceweasel，其相当于firefox3.5，
+  装后以后发现不能缺少很多扩展，要命的是firebug和pendactyle,其他没有检查，
+  所以只能先aptitude install iceweasel，然后用他去网上下载火狐，等替代好了，再卸了它,
+  下载firefox.tar..bz2，直接解包后进入目录 sh firefox 即可
+  tar jxvf  firfox.tar.bz2
+  aptitude install lftp unzip p7zip
+
+7 aptitude install emacs slime cl-asdf sbcl emacs-goodies-el hyperspec
+  "really rock,so power so clean"
+
+8 中文输入法
+  先按照前文设置中文字体,monac font consolas font 文泉驿微米黑确实不错
+  cp monaco.ttf /usr/share/fonts/truetype/
+  fc-cache -f -v
+
+  sudo aptitude install ibus ibus-table ibus-pinyin ibus wubi
+  Linux下常用的中文输入法有两个，一个是SCIM，另一个是FCITX。
+   SCIM的安装与设置 apt-get install scim
+   这样就把SCIM装好了，但SCIM只是一个输入法平台，所以还要在上面安装码表。
+   安装智能拼音输入法：apt-get install scim-pinyin
+   安装其它中文输入法（如五笔等）：apt-get install scim-tables-zh
+   为了让系统启动X窗口时自动加载输入法，在/etc/X11/Xsession.d文件夹中加入脚本文件95xinput：
+      /usr/bin/scim -d
+      XMODIFIERS="@im=SCIM"
+      export XMODIFIERS
+      export GTK_IM_MODULE=scim
+  重新启动X窗口，这时就可以按Ctrl+Space调出SCIM输入中文了。
+  注：a、输入法的字体有点偏小，最好在设置中把它调大点，这样输入时就不太累眼睛。
+   b、如果安装了其它中文输入法，最好在设置中把不用的输入法的码表删除，这样在切换输       入法时比较方便，不会出现多余的选项
+
+ 
+
+9 ftp下载lftp
+
+10 设置字体，/usr/share/fonts/truetype/msyh.ttf
+   参考http://www.douhua.im/2011/01/19/gentoo-xfce4-install-ttf-fonts/    
+     http://blog.sina.com.cn/s/blog_65bc42cb0100j3z0.html
+     http://www.linuxdiyf.com/viewarticle.php?id=103070
+
+11 因为iceweasel不支持很多插件，可惜，所以删除了它
+   换成启动sh /home/chenbing/firefox/firefox.sh，装上pentadactyl,firebug,autoproxy，
+   再加上他默认的组件，启动比前者慢了不少，哎，而且root和chenbing用户都有一份单独配置，
+   好像对启动的用户环境有点问题，到底不是本源支持的东西，总归不是很方便
+
+12 声卡ac97在换了新内核还是2.6.39还是不行，悲剧，所以flashplugin-nonfree也就不装了，悲剧
+13 aptitude install xpfd lshw wicd tsclient，完美解决pdf显示，很赞
+   lshw硬件检查, wicd无限配置  tsclientwindows远程桌面
+14 继续熟读emaces tutorial.下载一本383k的手册，看不是全本吗，刚好xpdf派上用场
+15 sudo 任何命令都显示sudo: command not found
+   奇怪了，难道非得按照http://laymantech.blogbus.com/logs/69188563.html走编译sudo?
+15 sudo dpkg-reconfigure locales
+   deb 是debian linus 的安装格式，跟red hat 的rpm相似
+   安装： dpkg -i file_ver.deb
+16 sudo d
+
+原关于locale,utf8,emacs input zh
+    but if you set en_utf8 as default, it will require extra work
+    (set LC_CTYPE before calling Emacs) to be able to input Chinese in Emacs
+ibus-el
+
+17 How to install libflashplayer.so
+   When you trying to install the flash player for your linux operating system, 
+   you download file libflashplayer.so 
+   but some people do know where to put this file.
+   This article guild you step by step to install the flash player for linux.
+   Step 1: Go to Adobe website and download you suitable version of 
+          flash player libflashplayer.so 32-bit/64bit . Then extract it to libflashplayer.so File.
+          http://labs.adobe.com/downloads/flashplayer10.html
+
+          sudo mv libflashplayer.so /usr/lib/mozilla/plugins/libflashplayer.so
+
+18 apt ack-grep ,ack-grep --lisp --python is so wonderful
+   and lispworks Hyperspec
+
+   apt mplayer p7zip-full unrar nast一个小巧的网络扫描器,synaptic 新立得软件包管理管理
+
+19  Sopcast
+  I'm using lenny (stable).
+  You don't need to use VLC, you can use mplayer:
+  First, you install the libraries:
+
+  apt-get install libstdc++5
+  and you install also mplayer:
+  apt-get install mplayer
+  Download SopCast from:
+  http://download.easetuner.com/download/sp-auth.tgz
+  And in the README.txt are the instructions:
+  In a shell inside the directory where the program is installed:
+  ./sp-sc-auth sop://211.152.36.37:3912/60707 3908 8908 > /dev/null &
+  after this comand in the same shell:
+  gmplayer http://localhost:8908/tv.asf
+
+20 howto install package from wheezy on squeeze
+  Add to your /etc/apt/apt.conf:
+  APT::Default-release "stable";
+  And then you can run:
+  aptitude install doxygen/wheezy
+  (isn't the same thing as with -t)
