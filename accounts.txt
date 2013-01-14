@@ -70,8 +70,9 @@ Email - edaycc@gmail.com
     	192.168.1.50 		root 		123456
 
 社区类帐号
-	爱上海		bingcoo			coolfish	jsliuruifang@gmail.com
+	爱上海		bingcoo		coolfish	jsliuruifang@gmail.com
 	OTN		zinger21		Chenbing211033
+	京东		zingers			chen133    	zinger21@163.com
 RegisterCode
     Navicat Premium en 9.1.2 NAVK-EBPF-UTBL-PB7T
     mysqlfront see in plone 

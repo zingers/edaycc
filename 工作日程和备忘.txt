@@ -1,4 +1,4 @@
-b26/12/2012  
+26/12/2012  
     翔明 娄山关路站3号口 往南走，到仙霞路右转过谷北路对面鑫达大厦1005
             IP静态设置 192.168.2.169
             WIFI          xming/021-52110886
@@ -115,4 +115,68 @@ b26/12/2012
                     那么相当于交换xml文档流嵌套了两层list
             大致思路如此， 这是他们希望的实现机制    
       
-2013年01月13日 10时34分08秒                    
+2013年01月13日 10时34分08秒     
+
+2013-1-14 10:46:14
+**项目环境搭建回顾**
+http://192.168.2.19/mediawiki/index.php/%E7%BF%94%E6%98%8E%E7%9F%A5%E8%AF%86%E5%BA%93:JAVA%E5%AD%A6%E4%B9%A0%E4%B8%93%E9%A1%B5
+1    eclipse-jee-indigo-SR2-win32.zip         
+2    Eclipse plugin 准备
+      a)  \\192.168.2.7\Share\Software\Java Develop\eclipse-3.7-plugins 
+            这里有两个插件
+            jbosstools-3.3.0.Beta2.aggregate-Update-2012-03-28_11-25-57-H136.zip
+            Subversive-incubation-0.7.9.I20110819-1700.zip
+            jboss那个其实是包含了hibernateTool，有100多M，本地安装倒是也是可以省下载时间
+       b) propedit - http://propedit.sourceforge.jp/eclipse/updates/  
+       c)  HibernateTools
+             在线安装 
+             Jboss - http://download.jboss.org/jbosstools/updates/development/indigo/
+             离线安装 
+             jbosstools-3.3.0.Beta2.aggregate-Update-2012-03-28_11-25-57-H136
+             JBoss插件安装比较漫长，可能会出错，也可能会出错，所以不安装也行
+       d)  Eclipse SVN插件
+              就是用那本地下载的安装即可，选择Native JavaHL 1.6.15
+              安装完毕后项目出现svn reposition exploration perspective
+       e)   安装 m2e 插件
+              http://download.eclipse.org/technology/m2e/releases
+       f)    安装 m2e wtp 插件
+              http://download.jboss.org/jbosstools/updates/m2eclipse-wtp
+3    获取工程项目
+      https://192.168.2.7/svn/local_wms
+4    Tomcat
+       \\192.168.2.7\Share\Software\Java Develop\apache-tomcat-7.0.14.zip
+       在servers下选择new server wizard
+       选择tomcat 7.0 选择tomcat安装目录  将需启动的项目移到右边并点击finish
+       双击打开服务查看配置   可根据情况修改Timeouts  450 450
+5    Maven
+       1)    maven安装文件路径
+               \\192.168.2.7\Share\Software\Java Develop\maven\apache-maven-3.0.4-bin.zip
+               解压缩到任意目录
+        2)   配置环境变量
+               在系统变量中，设置M2_HOME、PATH，若已存在则点击“编辑”，不存在则点击“新建”。
+              1、M2_HOME：  M2_HOME指明maven安装路径，如: D:\apache-maven-3.0.4
+              2、PATH ：    编辑添加%M2_HOME%\bin;
+        3)    将\\192.168.2.7\Vss\swap\settings.     
+                xml文件覆盖maven安装路径下conf文件夹内settings.xml文件。
+                将\\192.168.2.7\Share\Software\Java Develop\maven\m2.zip解压缩到C:\Documents and Settings中与电脑用户名相同的文件夹内。
+        4)    eclipse内配置maven （常见问题）                
+                Maven- Installation 指定settings.xml文件
+        5)    Maven - enable dependency management
+        6)    激活maven  更新本地maven仓库
+                Maven - update dependency
+6    安装AmaterasUML
+      下载附件解压缩   http://sourceforge.jp/projects/amateras/                
+      需要安装GEF
+      nightly   https://hudson.eclipse.org/hudson/job/gef-master/lastSuccessfulBuild/artifact/update-site/
+      release  http://download.eclipse.org/tools/gef/updates/releases/
+
+7     Database oracle
+       datasource.username=lwms
+       datasource.password=lwms
+       datasource.url=jdbc:oracle:thin:@ 192.168.2.11:1521:xe
+       PLSqldevloper 通过OracleInstant免客户端连接，只要定制ora监听器
+
+2013-1-14 17:23:41
+**数据分析网络课程**
+    http://www.itpub.net/thread-1625299-1-1.html
+
