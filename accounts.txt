@@ -1,11 +1,12 @@
-刘怡怜	530381198608143000	身份证号码			
+﻿刘怡怜	530381198608143000	身份证号码			
 	62284819312270600000	农行帐号			
 					
 					
 陈兵	9555505711109510		招行杭州			
 	6225886554761390		招行深圳			
 	6225888714473460		招行昆明			
-	4392 2600 0848 8296		招行信用卡			
+	4392 2600 0848 8296		招行信用卡
+        6222 5201 1419 9967             交通银行信用卡  874  4008009888			
 	103900001349			上海证券	
 	深圳福虹路营业部 		通讯密码750131 	284141		
 
@@ -21,18 +22,21 @@
 
 网络帐号
 	主要社区帐号					
-	taobao 	zingers			bing133
+	taobao 		zingers			bing133
+        393332173 	
+	1323760418      lost123
 	zhifubao	zinger21@163.com	bing133             ilzjpfe
 	Gmail		edaycc@gmail.com	bingcoo@liufei!			
-	APPLE ID	edaycc@gmail.com	sheisLiufei8	
-	Iphone序列号码 			C9GH2HF2DTC0
-	appinstall_hz_gs@wo.com.cn              	Gs654321
+	APPLE ID	
+	Iphone		序列号码		C9GH2HF2DTC0
+	appinstall_hz_gs@wo.com.cn             	Gs654321
+	edaycc@gmail.com			sheisLiufei8	
 	FireFox		m-t25ca-9hqjd-4xcgm-y2muw-8kade			
-	FreeNode          chenbing 		bingchen211033		
+	FreeNode        chenbing 		bingchen211033		
 	Skype		edaycc@gmail.com	chenbing123	
 			singbeast 		ChenBing		
 	Baidu		zingers			chenbing	
-	公司内网	8luobo.mooo.com	8luobo		211033	
+	公司内网	8luobo.mooo.com	8luobo	211033	
 						chenbing	bingchen
 	Lietou.com	edaycc@gmail.com	chenbing123	
 	Linkedin	edaycc@gmail.com	linkedin
