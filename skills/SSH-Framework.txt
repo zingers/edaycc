@@ -1,0 +1,868 @@
+﻿                         Structs2学习总结
+   需要在web-info/web.xml文件里配置好structs2的filter和filter-mapping
+   需要在web-info/classes目录下生成和配置好structs.xml文件  等价属于src里的配置文件
+       这里的内容主要是package包裹下的action配置
+       action属性里的name实例是大写的， 如Login
+                  属性class则是指代完整的java class 完整名  如lee.LoginAction
+       action子标签result代表了视图view页面，可以是jsp
+                    result属性name代表action的java类里的execute方法里的返回字符串
+                    result值代表了url  比如jsp的url ：形如 /welcome.jsp
+   视图url之 /login.jsp里  form的action属性 
+                    就是structs.xml 里配置的action.name+".action"  如Login.action
+
+   Action原则上是pojo类 和servletAPI解除了耦合关系。出于开发便捷的目的， 这个pojo类
+              一般也会继承或者实现基类和接口 
+              比如com.opensymphony.xwork2.Action   
+                  接口定义了一些最常见的返回视图 名字符串常量SUCCESS  ERROR NONE INPUT LOGIN
+              比如com.opensymphony.xwork2.ActionSupport
+                  该类可以支持数据验证和其他便利
+   Action是带着一个特定的方法 public string execute()的pojo类 ，这是它和普通bean最大的不同
+   Action封装的属性不一定都是url参数 ， 也可能是model的vo
+              它们在用作视图显示时候， 都包装在structs.valueStack属性里， 
+               可以通过jsp的getAttributesNames或者api文档调查地清清楚楚
+   ActionContext.getContext().getSession().put("user", getUsername())
+        这个是structs2的session管理机制， 它的结构是一个map，通过aop拦截和session同步
+   ${sessionScope.user}是在jsp里用到的jsp2.0标签  它和原来的request.getsession().set/get             
+         机制不同
+
+   视图JSP中 可以使用structs2标签库 这首先需要导入标签库类
+          <%@taglib prefix="s" uri="/struts-tags" %>
+           这里prefix的前缀符号也是你之后标签的启示名称
+   structs2标签库类一般都是成对出现， 这意味着你不要忘记加上关闭标签 因为当中包含着html源码
+   常见的标签对有<s:if></s:if> <s:else></s:else> 这两个标签对本身也是成对出现的，一般。
+                         <s:iterator></s:iterator> 该标签属性values就是action封装的vo集合类属性名
+                         也就是不用这种机制， 用原始的request.getAttribute("struts.valueStack")
+                         它返回的是一个ValueStatck , 在后者身上执行的.findValue("books")
+                         <s:iterator>标签提供一个status=index常见模式，为集合创建数值索引号
+                         <s:if test="#index.odd==true">...</s:if>提供了判断索引奇偶位的手法
+                         <s:property/>看来是对元素某属性值的访问方式，
+                                                如果没有名称，那么这个元素一般是基础对象 如字符串
+  structs标签库也封装和重构了html的form域，注意的有两点
+      1  <s:form action="Login">这种写法  .action不需要了
+      2   其他域标签都提供了label属性， 这样显示名称和代码名称都统一在xml标签属性里了
+      3   按钮s:submit 没有lable 而是value 估计button也是
+   国际化资源文件
+       它的原理和需求很明显，就是把页面上的字面显示字符串用 编码过的代码代表， 而不是直接写上某国语言的具体文本。那样，在系统运行时候，客户端发起请求中本身包含了地域/语言信息，调用相应该国家的指定编码文件内容替换调编码label信息
+        资源文件也是属于src文件，经过build汇入web-info/classes目录
+        资源文件内容本质是一个键值对列表，每行一组，键指的是通用的label信息，值指的是特定国家语言文本。
+        资源文件和配置文件一样，以.properties后缀名结束。
+        国际化资源文件的制作过程分两部，先编写一个特定国家的键值对文件， 然后通过命令
+           native2ascii messageResource.properites messageResource_zh_CN.properteis
+           native2ascii messageResource.properites messageResource_en_US.properteis
+           来生成一系列国家的资源文件。
+        
+
+        资源文件的加载
+            一般可以写在structs.properties里面 如
+            struts.custom.i18n.resources=messageResource
+            struts.custom.i18n.resources=lee.messageResource
+            后者代表了，作为src的配置文件，出现在包层次中
+            注意这个structs.propertise和配置文件一样，也是要出现在web-info/classes目录下
+            这个配置文件和之前的structs.xml不是一个东西，记得区别
+            这个资源文件表示国际资源文件的信息只有一行话语，它的值是baseName基础名称
+        资源信息的展示
+            利用资源文件的机制就是把视图页面中的明文改成代号信息，形式非常简便
+             <s:text name="messageKey"/>
+             值得注意的是 s:text标签和封装form域的s:textfield s:textarea不是一个东西
+             它其实更准确的名字应该是s:label
+
+   数据校验
+      一般用之前提到过的action继承ActionSupport的方式来支持校验， 这背后的原因是因为ActionSupport类实现了接口Validateable，该接口定义了抽象的方法  void validate()。 因此你可以覆盖validate()方法，validate()方法作用机制如下
+     1  首先你在支持ActionSupport的Action里实现方法覆盖 public void validate()
+     2  根据数据输入规则， 对不正确的数据格式  addFieldError("username", "user.required")
+         这里的username表示了action类里封装的http_form参数名称
+                   user.required表示了写死的错误提示信息
+     3  如果出错提示信息本身也要国际化，用messageKey来指代
+                   addFieldError("username", getText("user.required"))
+     4  增加的addFieldrror会汇总到ActionSupport类的fieldErrors域里，通过ognl输出
+     5  只要有不为空的fieldsErrors存在, 那么ActionSupport类自动会转到input视图
+         所以在这种情况下， structs-xml配置action时候，必然要包含input视图了。
+         那么初始打开的页面，还只能是*.jsp页面了（login.jsp)
+         因为validate方法如果在Action中定义，那么验证方法会先于execute方法执行
+         如果fieldsErrors不为空， 那么自动跳转到input视图
+         如果你先打开的页面是login2.action，那么也会跳到input视图，同时由于当时输入必然没有，
+         login2.jsp的s:form域绑定了验证失败的提示
+     6  由于s:form机制， 它定义绑定的域会自动展示可能有的错误信息
+     7  s:fields域使用key代替value字面量
+            <s:textfield name="password" key="pass"/>
+            <s:submit   key="login"/>
+
+   使用structs2自带的验证框架
+      ActionSupport的validate验证机制可以工作， 但是每个类Action都这么写代码，有点负重和低效率。和Struts1一样 ， Structs2当然也带着基于xml配置验证框架，它来源于xwork的validate框架。Structs2自带很多校验器，分类为form域验证器和非form域验证器。
+      完成配置验证的过程
+       1  数据验证配置文件同样属于源文件，并且和主Action在一个位置下（子文件和类命名空间）
+       2  数据验证配置文件的命名 ActionName-validation.xml
+       3  保证action配置(structs.xml里有input视图)
+       4  Action类应该继承ActionSupport类，而不是pojo类或者简单的Action接口实现者
+           不然验证报错只在后台记录错误信息，而不是直接显示在前台
+      最常见的form域验证器
+         为requiredstring验证器
+
+
+
+Spring入门介绍
+在大型应用系统中，存在大量的工厂类。工厂类都是简单的、仅提供静态方法和变量的单实例。他们将创建对象，并将这些对象绑定在一起，这样就存在大量的重复代码。
+Spring最基本的一项功能就是：充当创建对象的工厂。其具体工作步骤如下：
+1. 读取并分析Spring配置文件（appcontext.xml放在classes目录下）。
+2.通过Java反射机制，创建并集成上述配置文件中定义的对象。
+3.将创建的对象传回给开发者的应用代码。因此，开发者不用编写工厂类。
+注：Spring默认时仅创建单实例的JavaBean，通过Spring配置文件中的bean元素的singleton属性可以控制创建Java实例的方式。
+ 
+appcontext.xml配置文件实例如下：
+ 
+[c-sharp] view plaincopy
+1. <?xml version="1.0" encoding="UTF-8"?>  
+2. <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">  
+3.    
+4. <beans>  
+5. <bean name="fileHelloWorld"  
+6.   class="testspring.sample.HelloWorld">  
+7.     <constructor-arg>  
+8.         <ref bean="fileHello"/>  
+9.     </constructor-arg>  
+10. </bean>  
+11.    
+12. <bean name="fileHello"  
+13.   class="testspring.sample.HelloWorldStr">  
+14.     <constructor-arg>  
+15.         <value>helloworld.properties</value>  
+16.     </constructor-arg>  
+17. </bean>  
+18.    
+19. </beans>  
+上述代码中，声明了一个名为fileHelloWorld的HelloWorld实例，该实例的构造方法需要传入一个HelloWorldStr类的实例作为参数。constructor-arg元素声明构造方法需要用到的参数，通过ref元素可以引用到Spring配置文件中的其他已定义的JavaBean。value元素直接获取参数。比如上例中，HelloWorldStr类接收“helloworld.properties”作为参数。
+ 
+下面例子展示了一个简单的Spring程序。例子的功能是读取一个配置文件，并将文件里的内容输出到控制台。
+ 
+[java] view plaincopy
+1. package testspring.sample;  
+2.   
+3. import java.io.IOException;  
+4. import java.io.InputStream;  
+5. import java.util.Properties;  
+6.   
+7. public class HelloWorldStr {  
+8.   
+9.     private String filename;  
+10.   
+11.     public HelloWorldStr(String filename) {  
+12.         this.filename = filename;  
+13.     }  
+14.   
+15.     public String getContent() {  
+16.         String helloWorld = "";  
+17.         try {  
+18.             Properties properties = new Properties();  
+19.             InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename);  
+20.             properties.load(in);  
+21.             in.close();  
+22.             helloWorld = properties.getProperty("helloworld");  
+23.         } catch (IOException e) {  
+24.             e.printStackTrace();  
+25.         }  
+26.   
+27.         return helloWorld;  
+28.     }  
+29. }  
+ 
+HelloWorld.java:
+[java] view plaincopy
+1. package testspring.sample;  
+2. public class HelloWorld {  
+3.       
+4.     HelloWorldStr str;  
+5.       
+6.     public HelloWorld(HelloWorldStr str){  
+7.         this.str = str;  
+8.     }  
+9.       
+10.     public String getContent(){  
+11.         return str.getContent();  
+12.     }  
+13. }  
+ 
+HelloWorldClient.java:
+[java] view plaincopy
+1. package testspring.sample;  
+2.   
+3. import java.io.IOException;  
+4.   
+5. import org.springframework.beans.factory.BeanFactory;  
+6. import org.springframework.beans.factory.xml.XmlBeanFactory;  
+7. import org.springframework.core.io.ClassPathResource;  
+8. import org.springframework.core.io.Resource;  
+9.   
+10. public class HelloWorldClient {  
+11.   
+12.     /** 
+13.      *<p>Description:<p> 
+14.      * @param args 
+15.      * @author mayk  2009-4-28 
+16.      * @throws IOException  
+17.      */  
+18.     public static void main(String[] args) throws IOException {  
+19. //      1. 读取并分析Spring配置文件（'appcontext.xml'）。  
+20.         Resource resource = new ClassPathResource("appcontext.xml");  
+21. //      2. 通过Java反射机制，创建并集成上述配置文件中定义的对象。  
+22.         BeanFactory factory = new XmlBeanFactory(resource);  
+23. //      3. 将创建的对象传回给开发者的应用代码。因此，开发者不用编写工厂类。  
+24.         HelloWorld helloworld = (HelloWorld)factory.getBean("fileHelloWorld");  
+25.         System.out.println(helloworld.getContent());  
+26.   
+27.         //  
+28.     }  
+29.   
+30. }  
+ 
+appcontext.xml文件位于src目录下。
+helloworld.properties文件内容为：
+helloworld=Hi,Spring
+
+    理解这个例子的关键在于， 理解spring并没有干扰java类本身的设计和实现。它起的作用是通过配置文件声明式创建类的实例  这样省去了类创建工厂（单例）的相应代码 。 更巧妙的是，类和类之间的包含关系  也可以通过声明的ref所占位。默认，spring构建的类实例是singleton单实例的。
+
+ 
+Spring之配置文件加载方式
+Spring在org.springframework.core.io包中提供了多种配置文件加载方式。无论是XML、URL还是文件，都有很好的支持。比如基于URL的UrlResource、基于输入流的InputStreamResource、基于文件系统的FileSystemResource、基于应用classpath的ClassPathResource。开发者可以从不同位置、以不同方式加载Spring配置文件。
+常用的集中配置文件加载方式：
+一:XmlBeanFactory 加载方式。此方式常用于应用程序，如swt、applet等。
+[java] view plaincopy
+1. //基于资源文件加载：  
+2. Resource resource = new ClassPathResource("appcontext.xml");  
+3. BeanFactory factory = new XmlBeanFactory(resource);  
+4.   
+5. //基于流文件加载：  
+6. InputStream in = new FileInputStream("appcontext.xml");  
+7. BeanFactory factory = new XmlBeanFactory(in);  
+ 二:ApplicationContext加载方式。此方式常用于J2EE程序。
+ 
+1. ApplicationContext context=new classPathXmlApplicationContext("classpath:appcontext.xml");  
+2.  BeanFactory factory = (BeanFactory)context;  
+3.   
+4.  // src目录下的  
+5.  ApplicationContext context=new ClassPathXmlApplicationContext("appcontext.xml");      
+6.  BeanFactory factory = (BeanFactory)context;  
+7.   
+8.   // src/conf 目录下的  
+9.  ApplicationContext context=new ClassPathXmlApplicationContext("conf/appcontext.xml");     
+10.  BeanFactory factory = (BeanFactory)context;  
+11.  //绝对路径  
+12.  ApplicationContext context=new ClassPathXmlApplicationContext("file:G:/Test/src/appcontext.xml");  
+13.  BeanFactory factory = (BeanFactory)context;  
+
+三 : 文件系统的加载方式
+[java] view plaincopy
+1. ApplicationContext factory=new FileSystemXmlApplicationContext("src/appcontext.xml");  
+2. //使用了  classpath:  前缀,作为标志,  这样,FileSystemXmlApplicationContext 也能够读入classpath下的相对路径  
+3. ApplicationContext factory=new FileSystemXmlApplicationContext("classpath:appcontext.xml");  
+4. ApplicationContext factory=new FileSystemXmlApplicationContext("file:G:/Test/src/appcontext.xml");  
+5. ApplicationContext factory=new FileSystemXmlApplicationContext("G:/Test/src/appcontext.xml");  
+四: XmlWebApplicationContext   是专为Web工程定制的。
+ 
+1. ServletContext servletContext = request.getSession().getServletContext();  
+2.  ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext );
+
+Spring之控制反转（IoC） 
+一、IoC概念
+IoC(Inversion of Control)：中文译为控制反转。
+IOC的基本概念是：不创建对象，但是描述创建它们的方式。在代码中不直接与对象和服务连接，但在配置文件中描述哪一个组件需要哪一项服务。容器负责将这些联系在一起。
+　　其原理是基于OO设计原则的The Hollywood Principle：Don't call us, we'll call you（别找我，我会来找你的）。也就是说，所有的组件都是被动的（Passive），所有的组件初始化和调用都由容器负责。组件处在一个容器当中，由容器负责管理。
+　　简单的来讲，就是由容器控制程序之间的关系，而非传统实现中，由程序代码直接操控。这也就是所谓“控制反转”的概念所在：控制权由应用代码中转到了外部容器，控制权的转移，是所谓反转。
+ 
+二、Spring IoC
+         Spring IoC容器实现了IoC设计模式，对外提供两个接口实现对Spring IoC容器的访问：
+         1. BeanFactory:位于org.springframework.beans.factory包中。借助于配置文件实现对JavaBean的配置和管理。主要应用于开发Java应用。
+         2. ApplicationContext：位于org.springframework.context包中。继承于BeanFactory，增加了IoC集成、处理消息资源、事件等功能。主要用于开发J2EE应用，是Spring推荐使用的接口。
+         要获得appcontext.xml中定义的JavaBean，应用代码只需要调用BeanFactory的getBean方法即可。
+       
+         Bean的生命周期
+         IoC容器定义了Spring配置文件中JavaBean应遵循的规则，即Bean定义（BeanDefinition）。任何处于IoC容器控制下的JavaBean的生命周期都存在4个阶段：
+         1.实例化JavaBean。
+         2.JavaBean实例的初始化，即通过IoC注入其依赖性。这一阶段将完成JavaBean实例的初始化。
+         3.基于Spring应用对JavaBean实例的使用。
+         4.Ioc容器销毁JavaBean实例。
+        
+Bean的创建
+ 声明方式：<bean name="fileHelloWorld"  class="testspring.sample.HelloWorld"/>
+ 可用参数：                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+              factory-method：声明创建JavaBean的工厂方法。
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       factory-bean：声明工厂类。
+              <ref>：引用其它资源（bean实例）。
+        初始化JavaBean
+        1.可以使用autowire属性，使Spring自动将目标JavaBean需要注入的JavaBean找到并注入进来。
+        2.使用dependency-check属性，保证各个Spring配置文件中各个JavaBean之间的相互关系。
+        3.借助setter方法，将JavaBean的属性值注入进来。这些属性值可以使Java原型、对象类型、其它JavaBean、null等。
+        4.如果JavaBean实现了org.springframework.beans.factory.BeanFactoryAware接口，则还需要调用setBeanFactory方法。
+        5.Spring框架提供了若干接口，供开发者改变配置在BeanFactory中JavaBean的行为时使用。比如InitializingBean接口。BeanFactory初始化JavaBean时，会调用实现了InitializingBean接口的JavaBean中的aferPropertiesSet()方法。
+        6.通过在<bean>元素中包含init-method属性能够达到同InitializingBean一样的目的。即初始化时会自动调用init-method中定义的方法。
+        注意：如果5和6两者同时使用，Spring首先执行5中的aferPropertiesSet()方法，然后执行init-method中定义的方法。
+ 
+        使用JavaBean
+         一旦Spring创建并初始化JavaBean实例后，应用就可以使用JavaBean实例了。
+ 
+        销毁JavaBean
+         一旦将基于Spring的（Web）应用停止，Spring框架将调用那些JavaBean实例中存在的生命周期方法，比如实现了DisposableBean接口的JavaBean，或者在Spring配置文件中指定了destroy-method苏醒的JavaBean。
+         注意：
+          1.上述内容只适合于通过“singleton”方式创建的JavaBean实例。对于以“prototype”方式创建的JavaBean实例，Spring并不能够控制其生命周期。
+          2.JavaBean创建时间。对于BeanFactory而言，在用户调用getBean()方法时创建JavaBean实例。而对于ApplicationContext而言，一旦ContextLoaderServlet或ContextLoaderListener初始化成功，所有JavaBean实例都将会被创建。
+
+Spring之事件监听
+  Spring借助于org.springframework.context.event.ApplicationEvent抽象类及其子类实现事件的发布；借助于org.springframework.context.ApplicationListener接口及其实现者实现事件的监听。这两者构成了观察者模式（Observer）。
+
+ApplicationContext提供了publishEvent方法，实现事件的发布。Spring提供了如下三种常见的ApplicationEvent事件实现：
+org.springframework.web.context.support.RequestHandledEvent：一旦客户请求处理完毕，将发布该事件。
+org.springframework.context.event.ContextRefreshedEvent：在ApplicationContext容器初始化完成或者刷新时，发布该事件。
+org.springframework.context.event.ContextClosedEvent：在关闭ApplicationContext容器时，发布该事件。
+
+为监听ApplicationEvent事件，开发者需要在目标JavaBean中实现ApplicationListener接口。
+
+ 
+Spring之面向方面编程（AOP）
+分类： Spring2009-05-07 23:20 140人阅读 评论(0) 收藏 举报
+ 
+定义
+面向方面编程：Aspect Oriented Programming
+　　AOP是OOP的延续，是Aspect Oriented Programming的缩写，意思是面向切面编程。可以通过预编译方式和运行期动态代理实现在不修改源代码的情况下给程序动态统一添加功能的一种技术。AOP实际是GoF设计模式的延续。
+ 
+Spring AOP Advice：
+1.Before Advice：在执行目标操作之前执行的装备（Advice）。在Spring中实现为org.springframework.aop.MethodBeforeAdvice。
+2.Throws Advice：如果目标操作在执行过程中抛出了异常，则执行该装备。在Spring中实现为org.springframework.aop.AfterReturningAdvice。
+3.After Advice：在执行目标操作之后执行的装备。在Spring中实现为org.springframework.aop.ThrowsAdvice。
+4.Around Advice：在方法调用前后执行的装备。这种装备功能最强大。在Spring中实现为org.springframework.aop.MethodInterceptor。
+5.Introduction Advice：Introduction装备能够为类新增方法，是最复杂的装备。
+
+
+spring quartz  
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd" >
+<beans>
+ <bean ></bean><!--job-->
+ <!--org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean类添加一个job这个是一个普通的bean没有实现job接口-->
+<bean id="invokJod"
+  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+  <property name="targetObject">
+   <ref bean="jobQuartz" />
+  </property>
+  <property name="targetMethod">
+   <value>sayeHello</value><!--告诉MethodInvokingJobDetailFactoryBean添加的job要执行那个方法-->
+  </property>
+ </bean>
+<!--创建触发器--> 
+<bean id="doTime" 
+  class="org.springframework.scheduling.quartz.CronTriggerBean">
+  <property name="jobDetail">
+   <ref bean="invokJod" />
+  </property>
+  <!-- cron表达式 -->
+  <property name="cronExpression">
+   <value>5,25,45 * * * * ?</value>
+  </property>
+ </bean>
+<!--创建Scheduler-->
+ <bean id="startQuertz" lazy-init="true" autowire="no"
+  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+  <property name="triggers">
+   <list>
+    <ref bean="doTime" />
+   </list>
+  </property>
+ </bean>
+</beans>
+ 
+job的代码
+package org.springQuartz;
+public class Hello {
+ 
+ public void sayeHello() {
+  System.out.println("hello 丽仪");
+ }
+}
+ 
+创建Scheduler
+public static void main(String[] args) throws Exception {
+  // TODO Auto-generated method stub
+  String[] str = { "org/springQuartz/quartz.xml" };
+  ApplicationContext ac = new ClassPathXmlApplicationContext(str);
+  BeanFactory factory = ac;
+  Scheduler startQuertz = (Scheduler) ac.getBean("startQuertz");
+}
+                      
+Spring事务类型祥解
+大家可能在spring中经常看到这样的定义：
+
+<prop key="load*">PROPAGATION_REQUIRED,readOnly</prop><prop key="store*">PROPAGATION_REQUIRED</prop>
+估计有好多朋友还没有弄清楚里面的值的意思，仔细看完下面应该知道自己什么情况下面应该使用什么样的声明。^_^
+http://oss.org.cn/ossdocs/framework/spring/zh-cn/transaction.html#d0e4416
+http://www.blogjava.net/DenisLing/archive/2007/06/29/24641.html#126956
+Spring中常用事务类型：
+PROPAGATION_REQUIRED--支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。
+PROPAGATION_SUPPORTS--支持当前事务，如果当前没有事务，就以非事务方式执行。
+PROPAGATION_MANDATORY--支持当前事务，如果当前没有事务，就抛出异常。
+PROPAGATION_REQUIRES_NEW--新建事务，如果当前存在事务，把当前事务挂起。
+PROPAGATION_NOT_SUPPORTED--以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
+PROPAGATION_NEVER--以非事务方式执行，如果当前存在事务，则抛出异常。
+PROPAGATION_NESTED--如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。
+EJB的事务类型：
+Nerver : 不参与事务,如果参与产生RemoteException
+NotSupported:不能参与
+Supports:如果调用者正在参与事务,相应的EJB调用也可以参与事务,否则不能
+Mandatory 如果调用者有一个事务,相应的EJB可以参与事务,否则,TransactionRequiredException
+Required如果调用者有一个事务,相应的EJB可以参与事务,否则,容器将在调用相应的EJB之前,开始一个事务.
+      当方法调用完成以后,即提交该事务.
+RequiresNew     在调用相应的EJB之前,开始一个新的事务,当方法调用返回时,即提交这个事务.
+
+　　前六个策略类似于EJB CMT：常量名相同，因此，对EJB开发人员来说，应该立刻就感到熟悉。第七个（PROPAGATION_NESTED）是Spring所提供的一个特殊 变量。它要求事务管理器或者使用JDBC 3.0 Savepoint API提供嵌套事务行为（如Spring的DataSourceTransactionManager），或者通过JTA支持嵌套事务。
+　　事务属性中的readOnly标志表示对应的事务应该被最优化为只读事务。这是一个最优化提示。在一些情况下，一些事务策略能够起到显著的最优 化效果，例如在使用Object/Relational映射工具（如：Hibernate或TopLink）时避免dirty checking（试图“刷新”）。
+　　在事务属性中还有定义“timeout”值的选项，指定事务超时为几秒。在JTA中，这将被简单地传递到J2EE服务器的事务协调程序，并据此得到相应的解释。
+
+事务是一个最小的工作单元，不论成功与否都作为一个整体进行工作。
+不会有部分完成的事务。由于事务是由几个任务组成的，因此如果一个事务作为一个整体是成功的，则事务中的每个任务都必须成功。如果事务中有一部分失败，则整修事务失败。
+当事务失败时，系统返回到事务开始前的状态。这个取消所有变化的过程称为“回滚”(rollback)。例如，如果一个事务成功更新了两个表，在更新第三个表时失败，则系统将两次更新恢复原状，并返回到原始的状态。
+--------------------------------------------------------------------------
+在隔离状态执行事务，使它们好像是系统在给定时间内执行的唯一操作。如果有两个事务，运行在相同的时间内，执行相同的功能，事务的隔离性将确保每一事务在系统中认为只有该事务在使用系统。 
+这种属性有时称为串行化，为了防止事务操作间的混淆，必须串行化或序列化请求，使得在同一时间仅有一个请求用于同一数据。
+事务策略我只用了PROPAGATION_REQUIRED,也就是你的这个方法执行完毕后一定提交 
+一般就这样配置: 
+<prop  key= "save* "> PROPAGATION_REQUIRED </prop>
+表示所有的以save开头的方法都要做一个开始事物和结束事务的工作.
+
+5个隔离策略对应jdbc中的设置的那5种,你可以看java.sql.Connection的源代码中有详细解释.其实就是处理事务并发的隔离策略.如ISOLATION_READ_UNCOMMITED就是指一条记录被A修改,还没有提交 此时,B可以读该条记录.
+
+iBATIS教程之快速入门浅析
+AD： 51CTO云计算架构师峰会 抢票进行中！
+iBATIS教程要从iBATIS的概念开始，它是又一个O/R Mapping解决方案，j2ee的O/R方案真是多，和Hibernate相比，iBATIS最大的特点就是小巧，上手很快。如果你不需要太多复杂的功能，iBATIS是能满足你的要求又足够灵活的最简单的解决方案。
+iBATIS最大的特点是简单，最新版本2.0（下载），和1.0相比，主要改动在XML配置文件上，不过，只要有SQL基础，相信你不用教程也能看明白。下面我们看一个最简单的例子入门。
+我们先建一个表Account，包括字段username, varchar(20), pk和password, varchar(20)，随便填入一些数据。然后编写iBatis必须的配置文件sql-map-config.xml，文件名随意，内容如下：
+﹤?xml version="1.0" encoding="UTF-8" ?﹥  ﹤!DOCTYPE sqlMapConfig  PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"  "http://www.ibatis.com/dtd/sql-map-config-2.dtd"﹥  ﹤sqlMapConfig﹥  ﹤settings      cacheModelsEnabled="true"     enhancementEnabled="true"     lazyLoadingEnabled="true"     maxRequests="32"     maxSessions="10"     maxTransactions="5"     useStatementNamespaces="false" /﹥  ﹤transactionManager type="JDBC" ﹥      ﹤dataSource type="SIMPLE"﹥        ﹤property name="JDBC.Driver" value="sun.jdbc.odbc.JdbcOdbcDriver"/﹥        ﹤property name="JDBC.ConnectionURL" value="jdbc:odbc:Blog"/﹥        ﹤property name="JDBC.Username" value="admin"/﹥        ﹤property name="JDBC.Password" value=""/﹥      ﹤/dataSource﹥  ﹤/transactionManager﹥  ﹤sqlMap resource="Account.xml" /﹥  ﹤/sqlMapConfig﹥ 
+其他部分你不用管它，我是直接copy的示例配置，只需注意红色部分，配置好数据源即可。我用的是Access，所以用JdbcOdbc驱动。如果你用MySQL或其他数据库，更改相应的属性。
+然后注意到这个配置文件还引用了一个Account.xml，没错，iBatis把每个需要O/R Mapping的Java对象关联到一个xml配置文件，我们需要把一个Account表映射到一个Account类：
+package example;  public class Account {      private String username;      private String password;       public String getUsername() { return username; }      public void setUsername(String username) { this.username=username; }       public String getPassword() { return password; }      public void setPassword(String password) { this.password=password; }  } 
+iBATIS之编写Account.xml文件：
+﹤?xml version="1.0" encoding="UTF-8" ?﹥  ﹤!DOCTYPE sqlMap  PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"  "http://www.ibatis.com/dtd/sql-map-2.dtd"﹥  ﹤sqlMap namespace="Account"﹥ 
+  ﹤select id="getAccount" parameterClass="java.lang.String" resultClass="example.Account"﹥ 
+     select * from Account where username = #value#  ﹤/select﹥
+     ﹤insert id="createAccount" parameterClass="example.Account"﹥      insert into Account (username, password)      values ( #username#, #password# )  ﹤/insert﹥  ﹤/sqlMap﹥ 
+我们主要关心以﹤select ...﹥为主，这里定义了一个查询方法，名字为getAccount，传入参数为String，返回类型resultClass就是 example.Account类，select语句相信你已经很熟悉了，#value#是我们将要传进去的String。
+﹤insert...﹥ 与之类似，不过注意到#username#和#password#，由于参数是Account类，它们将被Account.getUsername()和 Account.getPassword()替换。所以，只要你会写SQL，就能非常容易地写出配置文件。
+最后便是如何使用iBatis实现O/R映射。首先初始化iBatis获得一个SqlMapClient对象：
+    com.ibatis.sqlmap.client.SqlMapClient sqlMap = null;    
+  try {
+          java.io.Reader reader = om.ibatis.common.resources.Resources.getResourceAsReader ("sql-map-config.xml"); 
+         sqlMap = SqlMapClientBuilder.buildSqlMapClient(reader); 
+     } catch (Exception e) {
+          e.printStackTrace();  } 
+然后就可以异常方便地使用O/R Mapping了，比如查询username=admin的Account：
+
+
+try {  
+       Account accout = (Account)sqlMap.queryForObject("getAccount", "admin");         ...     } 
+或者创建一个新的Account：
+try {
+          Account account = new Account();
+     account.setUsername("micheal");
+     account.setPassword("1234");
+     sqlMap.insert("createAccount", account);   } 
+运行时把两个配置文件和iBatis的3个jar包放到classpath中，要求jdk1.4版本。
+iBATIS总 结：iBATIS确实简单灵活，上手容易，代码很少，配置稍嫌复杂。不足之处一是没有方便的工具来自动生成xml配置文件，二是不管是query还是 insert都只能传入一个参数，有时不得不把两个参数包装成一个类传进去。另外对常见的1:1，1:N关系的支持不如Hibernate。不过，大多数 时候iBATIS已经完全可以满足我们的需求。Spring很好的集成了iBATIS，你可以参考Spring的JPetStore示例。需要注意的是使用iBatis 2.0和1.0有较大区别，主要体现在配置文件上，iBATIS2.0新增了DAO框架，不需要Spring提供的DAO也能很方便地实现DAO模式。
+【编辑推荐】
+1. iBATIS分页的一些理解
+2. iBATIS应用之SQLMap API编程浅析
+3. 动态Mapped Statement在iBATIS中应用
+4. iBATIS中添加DAO的配置浅析
+5. iBATIS DAO framework初体验
+
+
+动态Mapped Statement在iBATIS中应用
+2009-07-21 10:39 佚名 JDNIS 我要评论(0) 字号：T | T
+
+动态Mapped Statement在iBATIS中的应用是怎么样的呢？那么本文就向你介绍详细的内容。
+AD： 51CTO云计算架构师峰会 抢票进行中！
+动态Mapped Statement是如何在iBATIS中应用呢？让我们先看看实例：
+
+Java代码
+﹤select id="dynamicGetAccountList" cacheModel="account-cache" resultMap="account-result"﹥    select * from ACCOUNT   
+       ﹤isGreaterThan prepend="and" property="id" compareValue="0"﹥ 
+           where ACC_ID=#id#    
+       ﹤/isGreaterThan﹥
+    order by ACC_LAST_NAME  ﹤/select﹥ 
+例子说明：
+如果值小于0，那么sql语句就是：
+
+Java代码
+select * from ACCOUNT order by ACC_LAST_NAME   
+动态Mapped Statement应用更复杂的例子：
+
+Java代码
+﹤select id="dynamicGetAccountList"  resultMap="account-result"﹥       select * from ACCOUNT    
+     ﹤dynamic prepend="WHERE"﹥         
+         ﹤isNotNull prepend="AND" property="firstName"﹥         
+            (ACC_FIRST_NAME=#firstName# 
+         ﹤isNotNull prepend="OR" property="lastName"﹥  
+            ACC_LAST_NAME=#lastName#        
+         ﹤/isNotNull﹥          )         
+      ﹤/isNotNull﹥  
+      ﹤isGreaterThan prepend="and" property="id" compareValue="0"﹥ 
+          ACC_ID=#id#   
+      ﹤/isGreaterThan﹥       
+    ﹤/dynamic﹥       
+     order by ACC_LAST_NAME     
+﹤/select﹥   
+动态Mapped Statement实例注解：
+prepend:可被覆盖的SQL语句组成部分
+property:被比较的属性
+compareProperty:另一个用于和前者比较的属性
+
+compareValue用于比较的值
+
+﹤isEqual﹥
+﹤isNotEqual﹥
+﹤isGreaterThan﹥
+﹤isGreaterEqual﹥
+﹤isLessThan﹥
+﹤isLessEqual﹥
+﹤isPropertyAvailable﹥:检查是否存在该属性
+﹤isNotPropertyAvailable﹥:
+
+﹤isNull﹥:检查属性是否为null
+﹤isNotNull﹥
+﹤isEmpty﹥:检查Collection.size()的值，属性String或String.valueOf()值是否为null或空
+﹤isNotEmpty﹥:
+﹤isParameterPresent﹥:检查是否存在参数对象(不为null)
+﹤iterate﹥遍历集合：
+
+Java代码
+﹤iterate prepend="and" property="userNameList" open="(" close=")" conjunction="or"﹥       username=#userNameList[]#     ﹤/iterate﹥   
+property属性：类型为java.util.List的用于遍历的元素
+open属性：整个遍历内容开始的字符串，用于定义括号
+close属性：整个便利内容结束的字符串
+conjunction：每次遍历内容之间的字符串，用于定义AND或OR
+动态Mapped Statement在iBATIS中的应用就向你介绍到这里，对它了解些了么？
+
+iBATIS使用$和#的一些理解
+2009-07-21 09:29 佚名 飞扬编程 我要评论(0) 字号：T | T
+
+iBATIS使用$和#的一些理解，给我们讲解了在SQL中的一些使用体会，希望这些铁灰对你有所帮助。
+AD： 51CTO云计算架构师峰会 抢票进行中！
+我们在使用iBATIS时会经常用到#这个符号。
+比如:
+sql 代码
+select * from member where id =#id# 
+然后，我们会在程序中给id这个变量传递一个值，iBATIS会自动将#id#转成我们传递的内容。
+但是我最近碰到一个奇怪的问题。我在批量删除或修改的时候，居然SQL失效了。
+SQL如下：
+
+sql 代码
+update user set flag=#flag# where id in (#id#)      delete from user where id in (#id#)   
+传递的id为1,2,3。但是数据却没有任何的修改。
+后来查找了半天，原来原因就是这个#的问题。因为iBATIS默认会把“#”中间的变量作为字符串来处理。这样，就会出现这样的SQL
+
+sql 代码
+  update user set flag='1' where id in ('1,2,3')          delete from user where id in ('1,2,3')  
+这样的SQL数据库当然是不会执行的。那我们只有绕开iBATIS了吗？
+其实不用，iBATIS其实还提供了另外一种方式，那就是使用$来传递值。你使用$将你的变量括起来，iBATIS不会给这个变量做任何的处理，直接生成你要的SQL
+SQL代码
+    update user set flag=$flag$ where id in ($id$)      update user set flag=1  where id in (1,2,3)  
+    delete from user where id in ($id$)  
+    delete from user where id in (1,2,3) 
+还可以用ibatis的iterate解决：
+SQL：
+﹤select id="test" parameterClass="java.util.List" resultClass="test.Roadline"﹥          select * from SYS_ROAD_LINE_INFO where ROAD_LINE_NO in  
+         ﹤iterate open="(" close=")" conjunction=","﹥ 
+             #value[]#  
+        ﹤/iterate﹥
+      ﹤/select﹥   
+       List list = new ArrayList();
+      list.add("aaa");
+      list.add("bbb");                             
+      List rsList = sqlMap.queryForList("roadline.test", list);     
+生成的SQL：
+select * from SYS_ROAD_LINE_INFO where ROAD_LINE_NO in (?,?)   
+$中间的变量就是直接替换成值的
+#会根据变量的类型来进行替换
+比如articleTitle的类型是string, 值是"标题"的时候
+$articleTitle$ = 标题
+#articleTitle# = '标题'
+如果一个字段的名字不规范带有＃，那么在﹤select ...﹥ select name# from reader where id=#id#...﹤/select﹥语句中会报错，我看过有人问过这个问题，说是name####但是还是不能解决无法对带＃的字段的查询。 解决办法肯定是有的。比如，你可以把这个字段当做一个参数来传递给ibatis。然后用$$把这个变量括起来。
+【编辑推荐】
+1. Struts2.0+ibatis2.3完美整合实例之映射浅析
+2. Struts2.0+ibatis2.3整合实例实现服务层及Struts
+3. Struts2.0+ibatis2.3整合实例实现UI层浅析
+4. iBATIS入门程序六大步详解
+5. iBATIS DAO事务浅析
+
+
+SOA学习路线图之SOA方法学
+分类： SOA2009-05-21 23:12 215人阅读 评论(0) 收藏 举报
+常用的SOA方法学：
+ 
+面向服务的分析和设计（SOAD）。以服务为中心，根据业务需求发现服务、描述服务，并设计服务实现。
+面向服务的开发过程。结合现有的开发过程，规划以服务为中心的开发过程中的角色、职责、活动和工作。
+SOA的成熟度分析和迁移路线图。以服务为中心，分析现有或目标系统的成熟度，并设计从现有成熟度迁移到目标成熟度的路线图。
+SOA监管。设计组织和流程，确保SOA的设计原则在IT生命周期中得以贯彻，管理服务生命周期中的各种迁移的合理性。
+ 
+SOMA方法论
+SOMA:Service Oriented Modeling and Architecture，面向服务的建模与架构。
+服务的分析和设计最主要的职责在于发现服务、定义服务和实现服务，并指导如何和其它方法学结合完成这些指责。
+SOMA将服务的分析和设计分为服务发现、服务规约和服务实现。服务的实现包括服务、组件和服务组装的实现。
+ 
+面向服务的分析和设计的输入：业务领域和业务功能域、业务流程、业务目标、现有系统。
+ 
+1.       服务发现
+服务发现的主要任务是确定在一定范围内可能成为服务的候选者列表。
+发现方式：
+自上而下方式的领域分解：从业务着手进行分析，找出实现业务需要的服务。
+自下而上的现有系统分析：从已有系统出发，验证服务候选者和发现新的服务候选者。目的是利用已有资产来实现服务。
+中间对齐的业务目标建模：将业务目标分解成子目标，然后分析哪些服务是用来实现这些子目标的。目的是帮助发现与业务对齐的服务，并确保关键的服务在流程分解和已有资产分析的过程中没有被遗漏。
+ 
+结合上述三种方式的分析，发现服务候选者组合，并按照业务范围划分为服务目录。
+ 
+2.       服务规约
+服务规约的主要任务是规范性地描述服务各个方面的属性。包括输入/输出、安全性约束、响应时间等。
+进行服务暴露决策是服务规约的第一步。
+服务暴露原则：业务对齐、可组装、可重用。
+ 
+3.       服务实现
+服务实现通过差距分析，并结合传统方法学完成每个服务的实现，将服务契约落地落实。
+主要内容：
+现有系统分析、确定服务分配、服务实现决策、服务基础设施设计。
+上一篇：Spring之面向方面编程（AOP）
+下一篇：SOA学习路线图之SOA概念层次
+
+
+对九个超级程序员的采访
+作者: 陈皓  发布时间: 2012-09-14 20:18  阅读: 864 次  原文链接   全屏阅读　 [收藏]  
+　　文/陈皓
+　　原文：《Q&A With Nine Great Programmers》时间有限，我只能粗译，难免错误。
+　　这篇访谈源自 2006 年，最先发布在波兰程序员 Jaroslaw “sztywny” Rzeszótko (AKA “Stiff”) 的博客上。但是这篇博文现在找不到了。非常感谢他能授权我重新发布这个博文。
+在一个炎热无聊的下午，我突发奇想。我想通过电子邮件的方式对那些我非常感兴趣和非常敬重的程序员问 10 个问题。准备这 10 个问题我只花了 5 分钟，这些都是我个人想问他们的问题，所以，我基本上没想太多要问他们什么。最后两个问题和编程没有什么关系，我就是想问题这些人的一些兴趣爱好。另外，不是每一个人都想回答我的，这是我第一次做“访谈”，所以，我犯了一些错误，让一些问题没有回答。不管怎么样，我得到了很多很有意思的内容，所以，这对我绝对是一次很有意义的经历。
+并不是第一个人都回了我的邮件，也并不是每一个人都同意回答我的这些问题，也许在我发布这篇文章后我会得到那些回答，但是我已经迫不及待想把这些东西发布了，所以，我可能会更新这篇文章（更新：2006年 3 月 8 日，我收到了 Bjarne Stroustrup 的回信）
+– Jaroslaw
+　　介绍
+Linus Torvalds - Linux kernel 作者。
+Dave Thomas – “Pragmatic Programmer”(注：douban) 和 “Programming Ruby”(注：douban) 以及其它一些优秀书籍的作者。 你可以在 这里 读读他对编程的一些想法。
+David Heinemeier Hansson –   Rails Framework 作者 —— 一个目前最新最热的 Web 开发框架。他的 blog 在 这里. （陈皓注：他也是37signals 的领导人之一）
+Steve Yegge —— 他可能并不那么知名，但是他给了很多有意思的回答。他有一个很火的关于编程的 blog，他也是游戏 ”Wyvern” 的作者。（陈皓注：他最火的是去年在 Google+ 上对 Google 和 Amazon 的吐槽，06年他应该在 Google 了）
+Peter Norvig – Research Director at Google, 知名的 Lisper，AI 书的著名作家，个人主页。
+Guido Van Rossum – Python 发明者。
+Bjarne Stroustrup – C++ 发明者， 个人主页。
+James Gosling –  Java 发明者。
+Tim Bray –  XML 和 Atom 规格说明书作者之一，个人博客 。
+　　Q1: 你是怎么学编程的？是从学校里学的吗？或者你没有上过学:) ？
+　　Steve Yegge
+　　在我 17 岁的时候，我在 HP 的计算器中用他们的 RPN 栈语言自学编程的。在这之前，我尝试过学习编程一两次，但都没有学成。HP 28c 和 48g 的科学计算器是一个很牛的东西，而且还有不错的文档。我搞了一本 3D 图形的书，并很费力地把其中的 Pascal 语言转成 RPN 栈语言，并用 48g 画了一个 3D 的线框架图。运行的还不错，在我买了 PC 和 Turbo Pascal 之后，我开始认真地学习编程。在我进入大学计算机科学专业之前，我已经是一个不错的程序员了。
+　　我在华盛顿大学拿到了计算机科学学位，这绝对是有价值的，所以，我建议所有的程序员都应该得到计算机科学专业的学位。
+　　Linus Torvalds
+　　我没有在学校里学过编程，我主要是读我自己想读的书，或是就直接去编程 (一开始在 Commodore VIC-20 学编程， 然后是 Sinclair QL 上编程)。
+　　当然，我觉得上大学非常有用。我没有去一个工科大学，我上了赫尔辛基大学，这是一个比较偏理论的大学，所以，那里的教育并没有那么多的编程的东西（编程只是很少一部分），这里大多数的课程都倾向于教一些基础概念的东西，如：复杂性分析。看上去很无聊，甚至有点浪费时间，但是我还是觉得这些课有用，我对大多数课都还比较 enjoy。所以，我觉得我可能在这些方面是一个比较好的程序员。
+　　David Heinemeier Hansson
+　　我学编程是从用 HTML 做我的第一个网页开始的。那时，我想当我的网页能动态地显示一些内容，所以，我选择了 ASP 和 PHP。在做完这个网页后，我知道了怎么去编程，于是我开始我的计算机科学和商业管理学位的学习。
+　　Peter Norvig
+　　我是从高中和大学课程中学编程的，但是我还是觉得我自己学得更多。
+　　Dave Thomas
+　　我是在高中学编程的。我完全地迷住了，我对编程爱得无法自拔，然后，我开始挑选那些提供软件开发课程的大学。最终，我去了伦敦大学的帝国学院。第二年我就开始学习软件开发的课程了，那绝对是非凡的，学生和教员在一起工作把教材做得更好，每一个人都可以从中学到很多。这些课程给了我难以置信和非常雄厚的软件开发背景。我在那里读到了博士，最后去创业了。
+　　关于“我是怎么学编程的”这个问题，我的回答是“我现在还在学编程”。我认为好的程序员一生都在学编程。这并不是去学一门语言或是一个代码库，好的程序员会对他们的编程技艺一年又一年地精益求精。
+　　Guido Van Rossum
+　　我去的那个大学有一个大型主机和很多不同的计算机课程。这对我很重要。
+　　James Gosling
+　　起初，我是自学的。在我去上大学之前，我就找到了一份程序员的工作。但是我很高兴我去了大学，在那里有很多乐趣，最终我学到了博士。
+　　Bjarne Stroustrup
+　　我先上的是 Aarhus 大学， 然后是剑桥大学(Cambridge)，这两个大学教了我很多很有用的东西，这些东西为了以后的工作打下了基础。另外，我对编程和钱的关系学得非常好 —— 知道了真实世界的问题，正确性，维护性，准时交付，等等，这些比教育可能更重要。
+　　Tim Bray
+　　我本来想去做一个数学老师的。但是，那个学数学的大学要我去学几个计算机的课。
+　　Q2: 你们觉得对程序员最重要的事是什么？
+　　Steve Yegge
+　　沟通能力（写和说）。除非你可以让你的想法更有效率地传递出去，否则你不可能做得比编程更多的事。程序员应该疯狂地阅读，锻炼写作能力，参加一些写作培训课程，甚至锻炼在公开场合演讲的能力。
+　　Linus Torvalds
+　　It’s a thing I call “taste”. 有一件事，我把它叫做“品味”。
+　　我倾向于不从熟练程度来评判那些和我工作过的人。这些人能非常艰苦地写出很多代码，但是我想从他们对别人的代码的反应做出评判，这样我们就可以明白他们自己写的代码怎么样，知道他们使用的方法怎么样。他们对别人的评判还告诉我，他们是不是有好的“品味”。是这样的，如果一个人没有“好的品味”，那么他一般不会很好的评判他人的代码，他自己写的代码通常也不会很好。
+　　哦，这并不只是唯一的事。还有一件事，尤其在开源项目里，那是他是否有能力能和别人进行简单的沟通，告诉别人他要干什么，怎么干。这个能力可以告诉别人为什么你干的事是非常重要的，并不是所有的人都有这个能力。
+　　也就是说，有一些人可以写出很不错的代码，但他们并不一定能解释这些代码，他们也并不一定有好的品味，但是代码可以运行得不错。有时，你需要另一个人（有那种不错的品味的人）把他的代码转成更好的形式。也就是说，任何一个程序员都需要那种可以用清晰的代码来解决复杂问题的基础能力。
+　　David Heinemeier Hansson
+　　很强的对有价值的事的感觉。你可以问问自己这个问题你有没有这种能力：我现在做的这个事值不值得做？很多程序员浪费了如大海一样的时间去做一些无意义的事。
+　　Peter Norvig
+　　我不觉得只有一个，如果要我说一个的话，我说是“专注”。
+　　Dave Thomas
+　　热情。
+　　Guido Van Rossum
+　　你的问题很难回答啊:-) 我猜，如果程序员会在早晨煎个鸡蛋做早餐，那真是无价的能力。
+　　James Gosling
+　　自我激发。你需要全身心地投入到你要做的事中。
+　　Bjarne Stroustrup
+　　把事想清楚的能力：程序必需要能清楚地理解问题并能清楚地表述解决方案。
+　　Tim Bray
+　　能为自己的直觉提供证据的能力。
+　　Q3: 你是否认为数学和/或物理是一种很重要的编程技能？为什么？
+　　Steve Yegge
+　　数学有很多的分支和程序员相关，他们是“离散数学”和“具体数学”。这些分支包括的学科有，概率论，组合数学，图论，归纳证明，和其它有用的东西。我会鼓励所有的程序员都去学习离散数学，无论能学多少，因为这总比什么都不懂强。
+　　对于传统的数学，我也不经常用，但是我需要的时候这些数据知识会很管用。例如，在我之前的工作中我就用到了微积分。我需要估计每个小时中某服务的高峰时间的流量负载，所以，他的负载是跟着太阳走的就像一个正弦曲线一样。最简单的方式就是把每个小时的负载曲线给整合起来。如果我不知道微积分，我就不知道怎么更为准确地估计。
+　　当年我在开发我的 Wyvern 游戏的时候，我的平面几何的知识对我非常有帮助。而且经常使用代数和线性代数的知识。但我很少在工作中使用三角学或微分方程，微积分同样也很少。
+　　我想说，简单的数学基础让我的技能比一般程序员好过 5% 到 10%。如果我了解更多的数学，我确信我会比今天做得更好，所以，我每周都会花几个小时学习数学。
+　　我喜欢物理，我还在学习物理，我会花我一生去理解量子力学。但是我却没有发现物理对我的程序员工作有多有用。当然，如果我从事一些和物理相关的工作，可能会有用，例如：3D 游戏编程，或是某种物理特性仿真。
+　　Linus Torvalds
+　　我个人认为有很强的数学背景是一件好事。但我不确信物理是不是这样的，但是我深信懂数学的人会让你成为一个更好的程序员。这些智力模型都是相通的。
+　　David Heinemeier Hansson
+　　根本没用。至少对业务编程和 Web 应用来说没用。但是数学可能对一个人的写作有很重要的帮助。
+　　Peter Norvig
+　　是的。很多相法都是从数学来的：归纳，递归，逻辑，等等。
+　　Dave Thomas
+　　也许吧。但老实说，我没见到过懂这些学科和好的程序员有很大的相关性。
+　　然而，我见过有音乐背景和好的编程技能有很强的相关性。我不知道这为什么，但是我怀疑大脑中的某个区域可以让人即可以写出好的音乐，也可以写出好的代码。（陈皓注：@Sir 阿怪 貌似就是这个例子）
+　　Guido Van Rossum
+　　数学，当然（对于一些学科是很重要的，我不关心微分方程，但是代数和逻辑学是很重要的），物理，我不觉得对编程技能有关，当然物理在其它很多地方很有意思。
+　　James Gosling
+　　当然！数学教会了我逻辑和推导……让我有了一双懂分析的眼睛。当我们分析算法的时候，数学是无法被取代的。
+　　Bjarne Stroustrup
+　　这要看程序员自己和项目性质了。以前的数据很有用，物理一般，但是学好物理是是学习应用数据最好的一条路。
+　　Tim Bray
+　　对我来说，在我的编程生涯中我从来都没有用过大学里教的数学。
+　　Q4: 关于编程，你们认为接下来的大事是什么？X-Oriented 编程，Y语言，量子电脑 ？
+　　Steve Yegge
+　　我认为 Web 编程会逐渐变成最最重要的客户端编程。而对于原来传统的客端端编程都会被废弃，如： GTK, Java Swing/SWT, Qt, 当然，所有的和平台有关的东西，例如 Cocoa 和 Win32/MFC/等。
+　　当然，这不会一晚上就发生了。这会在第一个十年内缓慢地发生，而在第二个十年内，Web Apps 最终会胜利。工具，语言，协议，和浏览器技术都会进步得非常快，并会完全超出你今天能干的事。每一年都会向前进一步，而从今天开始，我会最终决定把我所有的应用开发全部切换到基于浏览器的应用。（陈皓注：我也是这么认为的，参看《来信，创业，移动互联网》）
+　　微软和苹果最终不愿意这个事发生，所以，触发这个事的第一步会是一个开源的浏览器（如：Firefox）开始到了支配市场的地位，然后会出现某种 Firefox 的杀手级应用（这种杀手级应用可能会像 iTunes 一样，所有的人都会用它，只需要下载 Firefox）
+　　Linus Torvalds
+　　我并不认为我们会看到一个“大的跳跃”。我们只会看到很多的工作帮助我们把那些沉闷辛苦的工作变得更简单 —— 会有一个更高级别的语言，也许把简单的数据库集成到语言中来会是其中最主要一个。
+　　例如，我个人相信“Visual Basic”在编程方面比“面向对象”做得更多。当然，人们都在取笑 VB 是一个很烂的编程语言，并且人们在谈论 OO 语言都十多年了。但我还觉得不是这样的，Visual Basic 不是一个好的语言，但是我觉得 VB 那简单的数据库接口比 OO 更重要。
+　　所以，我认为会语言有很多的改进，并且，硬件的改进会让编程更容易，但我并不期望会有巨大的生产力或是革命性的改进。
+　　至少，你不会开始搞真正的 AI 的东西，我也不认为真的 AI 会变成某种你不需要编程的东西。
+　　David Heinemeier Hansson
+　　我从不试图预测未来。我也不相信命运一说。最好预测未来的方式就是去实现未来。
+　　Peter Norvig
+　　大规模的分布式处理
+　　Dave Thomas
+　　下一个最牛的事会被再下一个最牛的事所掩盖，然后再被再再下一个所掩盖，再再再下一个所掩盖……。这是一件没完没了的事，所以，我并不会试图去找最牛的事，因为这会让人们忘了那些最真实的问题：把基本的东西做对。我们要让用户更满意，专注于交付有价值的东西，自豪于我们做的事。一个程序员可以使用很多工具把这些事做得更好，而不是去追逐时尚和流行。
+　　Guido Van Rossum
+　　对不起，我没有那么多水晶球。我 CGI 被发明了 5 年后预测过它 :-)
+　　James Gosling
+　　有两个事是我现在最关心的，那就是要对付并行和复杂。
+　　Bjarne Stroustrup
+　　我不知道，我也不愿猜。
+　　Tim Bray
+　　不知道。
+　　Q5: 如果你有 3 个月学一个相对较新的技术，你会学什么？
+　　Steve Yegge
+　　我的确有 3 个月的业余时间，我准备学一下 Dojo (http://dojotoolkit.org) 和高级 AJAX 及 DHTML。我会通过开发一个相当牛的 Web 应用来学习他们。Dojo 真的酷，并且我确信它会越来越好。
+　　Linus Torvalds
+　　嗯，我真的很爱做 FPGA（可编程芯片），但我部是太忙了而不是坐来来开始学习。我喜爱和硬件打交道：很明显这个原因是因为我最终在做操作系统，因为操作系统（除了编译器）基本上都是在和硬件打交道，但我没有真正地自己去设计和做一个硬件。
+　　David Heinemeier Hansson
+　　Mac 的 Cocoa 编程
+　　Peter Norvig
+　　我想把 Javascript 学得更好，然也也想学 Flash.
+　　Dave Thomas
+　　如果“新”是对于我来说，那么我会去学钢琴课。
+　　如果“新”是说技术，我猜我会选择学习某种和为残疾人服务的有关的技术。
+　　Guido Van Rossum
+　　单板滑雪。
+　　James Gosling
+　　搞点有乐趣的东西，我会学习最新的 3D 渲染技术。我可能会写一个光子映射渲染器。
+　　Bjarne Stroustrup
+　　3个月只有很少的东西你可以学，我觉得你只能参加某个成熟领域的培训。
+　　Tim Bray
+　　安全，加密，数字签名，身份标识，等等。对我来说，从没学过这些东西对我来说是个很大的问题。
+　　Q6: 你们觉得如何让一些程序员可能有超过其它程序员 10 倍或 100 倍的生产力？
+　　Steve Yegge
+　　我想你应该考虑一下为什么不是让所有的程序员都一样牛。托马斯·爱迪生有一句关于天才的名言也许会给你一些启示。
+　　Linus Torvalds
+　　我真的不知道，我想，一些人之所以更牛是因为他们可以专注于那些重要的事，而更多的只不过是在应付。那些我所知道的真的很牛的程序员从很年轻的时候就在做事了。
+　　David Heinemeier Hansson
+　　把难题变简单的能力。
+　　Peter Norvig
+　　把整体问题一次性放入大脑的能力。
+　　Dave Thomas
+　　他们关心他们做的事。
+　　Guido Van Rossum
+　　大脑结构基因不同。
+　　James Gosling
+　　他们知道他们要做什么，他们不并不急于仓促行事。他们有他们要做的事的整个蓝图。
+　　Bjarne Stroustrup
+　　首先，缺少足够的职业培训，或基础不够。其次，这些人要即聪明（那种可以把事情想清楚，直达核心的能力），又有经验，并有使用工具的知识。编程需要把理论和实践结合起来 – 并不是使用没有实际业务的知识。
+　　Tim Bray
+　　令人惊讶的思维改变。
+　　Q7: 什么工具是你的最爱（操作系统，编程/脚本语言，文本编辑器，版本管理，shell，数据库，或其它没它你活不了的工具），为什么不是别的？
+　　Steve Yegge
+　　操作系统： Unix! 我用 Linux，cygwin，和 darwin。你无法打败那些高效的工具。每一个程序员都应该学习使用 /bin 和 /usr/bin 下的所有命令。
+　　脚本语言：Ruby。我几乎对所有的重要的脚本语言都很熟悉： Perl, Python, Tcl, Lua, Awk, Bash, 和一些我忘了的。但是我太懒了，而 Ruby 是目前所有脚本语言中最简单的，它应该是天堂制造的。
+　　编程语言：没有一个我喜欢的，我觉得所有的编程语言都很扯。我倾向于 Java，因为它很强，可跨平台，有多不错的工具和类库。但是 Java 未来会进化或是灭亡，Java 还没有好到可以永远保持其领先地位。
+　　文本编辑器：Emacs，因为这是迄今最好的编辑器。
+　　版本管理：SVN，Perforce 更好一些，但是也很贵。
+　　Shell 脚本： Bash, 因为我太懒了去学一个更好的。
+　　数据库： 当然是 MySQL，没有之一。
+　　其它：我发现 GIMP 是无价的，但也是令人恼炎的。我用这个东西好几年了，但什么也没干，但是我没它活不了。很讽刺吧。Firefox 越来越是我最重要的工具。如果让我去用 IE 和 Safari，我会有严重的窒息感。
+　　注：所有的这些工具 (Unix， Emacs, Firefox， GIMP, MySQL, Bash, SVN, Perforce) 都有一个共同点：他们是可扩展的。例如：他们都有可编程的 API。伟大的程序员知道怎么编写他们的工具，而不只是去使用。
+　　Linus Torvalds
+　　实际上，我最终也没有用过几个工具，而我却花了一些时间让这些工具为我工作。最大的事是我自己写了个操作系统，我也自己写了个版本管理系统（git），我用的文本编辑器是 micro-emacs – 最终我也定制和扩展了它。
+　　除了上面三个，其它的东西，我深度关心我的邮件阅读软件，我使用“pine”，并不是因为它是史上最好的邮件阅读软件，因为我习惯了，用它我会有最低限度的大惊小怪。
+　　David Heinemeier Hansson
+　　OS X, TextMate, Ruby， Subversion, MySQL. 这些组合让我很快乐。我希望那些有好的品味的专注于重要的事的工具。
+　　Peter Norvig
+　　我不喜欢那三大操作系统 – Windows, Mac, Linux。我喜欢 Python 和 Lisp, Emacs.
+　　Dave Thomas
+　　在使用 Linux 10 年后我转到 Mac 平台有两年多了。Mac 并不见得有多好，但是它不需要很牛的技术，也不需要经常维护，这让我可以让我更专心得使用它。
+　　我并不是一个单一工具的信仰者，我喜欢换来换去的，这样可以让我有更多的经骊。现在，我使用 OSX, Emacs, TextMate, Rails, Ruby， SVN, CVS, Rake, make, xsltproc, TeX, MySQL, Postgres, 还有一堆高效的小工具。没人知道我明年会用什么。
+　　Guido Van Rossum
+　　Unix/Linux, Python, vi+emacs, Firefox.
+　　James Gosling
+　　这些天，我在用 NetBeans. 用它可以干我想干的所有的事，清洁，简单和高效。这是最好的我永远要生活在其中的环境了。
+　　Bjarne Stroustrup
+　　Unix， sam (一个非常简单的文本编辑器)， 当然，一个好的 C++ 编译器。
+　　Tim Bray
+　　我喜欢 Unix-like 的操作系统，像 Python 和 Ruby 的动态语言，像 Java 的静态语言（具体说来是 Java API） Emacs, 还有， bash, whatever, NetBeans.
+　　Q8: 你最喜欢的编程书是什么？
+　　Steve Yegge
+　　大哥，这个问题太难了。也许是”Gödel, Escher, Bach: an Eternal Golden Braid” (作者 Hofstadter)？虽然这不是严格意义上的编程的书，如果你要明确意义上的编程书，那么可能是 SICP (mitpress.mit.edu).
+　　Linus Torvalds
+　　嗨。这两天我在读一些小说，或是非计算机读物（老的但是有用的 “The Selfish Gene” 作者 Richard Dawkins)。
+　　如果要问我编程的书，我脑子里只出现了唯一一本真正的经典的编程的书 Kernighan & Ritchie 的 “The C Programming Language”，因为这本书太牛了，可读性强并且很短。考虚一下你想学到这世上一门最重要编程语言，并且它很薄，而且还有可读性，这真是一个奇迹。
+　　也就是说，其它我很喜欢的书并不是编程的，而是关于计算机结构和硬件的。那显然是 Patterson & Hennessy 的计算机结构的书，但是我个人也许更喜欢 Crawford & Gelsinger 的 “Programming the 80386?，这是我在开始写 Linux 时用的书。
+　　相似的原因，我还喜欢 Andrew Tanenbaum 的 “Operating Systems: Design and Implementation”.
+　　David Heinemeier Hansson
+　　我喜欢 Extreme Programming Explained 其摒弃了一般的编程实践，我还喜欢 Patterns of Enterprise Application Architecture 其出众地说明了抽象和具现的平衡。
+　　Peter Norvig
+　　Structure and Interpretation of Computer Programs
+　　Dave Thomas
+　　这关系到你所谓的“喜欢”，也许我最喜欢的是 IBM 的 “IBM/360 Principles of Operation.”
+　　Guido Van Rossum
+　　Neil Stephenson 的 Quicksilver.
+　　James Gosling
+　　Programming Pearls 作者 Jon Bentley.
+　　Bjarne Stroustrup
+　　K&R.
+　　Tim Bray
+　　Bentley 的 Programming Pearls
+　　Q9: 你最喜欢的和编程无关的一本书是什么？
+　　Steve Yegge
+　　只能是一本吗？这不可能。有太多太多我喜欢的书了。
+　　我这个月读过最喜欢的书是 “Stardust” (Neil Gaiman) 和 “The Mind’s I” (Hofstadter/Dennet).
+　　我最喜欢的作者是 Kurt Vonnegut, Jr. 和 Jack Vance.
+　　Linus Torvalds
+　　我在前面说过 Dawkins 的 Selfish Gene。在小说方面，有很多很多我 enjoy 的，但是几乎没有我特别喜欢的一本。我一般不会重读一本书，我的选择总是会变。我可能更喜欢科幻小说，如：”Stranger in a Strange Land” 作者 Heinlein，这是我青少年时期最喜欢的书，但现在并不是我喜欢的了。
+　　David Heinemeier Hansson
+　　1984, George Orwell.
+　　Guido Van Rossum
+　　Neil Stephenson 的 Quicksilver.
+　　James Gosling
+　　Guns, Germs & Steel 作者 Jared Diamond
+　　Bjarne Stroustrup
+　　我没有固定喜欢的书。目前是 O’Brian 的 Aubrey/Maturin 系列。
+　　Tim Bray
+　　One Day in the Life of Ivan Denisovich
+　　Q10: 你最喜欢的乐队/演奏家/作曲家？
+　　Steve Yegge
+　　喜欢的风格：古典音乐，动漫原声音乐，电脑游戏音乐
+　　喜欢的作曲家：Rachmaninoff, Chopin, Bach
+　　喜欢的演奏者：David Russell (古典吉它)， Sviatoslav Richter (钢琴)
+　　喜欢的动漫音乐： Last Exile, Haibane Renmei
+　　Linus Torvalds
+　　实际上我并不太喜欢音乐，但是当我听音乐的时候，我一般听经典摇滚乐，如： Pink Floyd ，Beatles ，Queen 和 The Who 乐队。
+　　David Heinemeier Hansson
+　　我喜欢很多风格。 Beth Orton, Aimee Mann, Jewel, Lauryn Hill. Actually， 所有的这些都可以归到 Girls with Guitars ;).
+　　Guido Van Rossum
+　　Philip Glass.
+　　James Gosling
+　　我喜欢听民歌: Christine Lavin, Woody Guthrie, Pete Seeger…
+　　Bjarne Stroustrup
+　　乐队: The Dixie Chicks. 作曲家: Beethoven.
+　　Tim Bray
+　　看我的博客吧。
+　　. . . . . . . . . . . . . . . . . . . . . . . . . . .
+　　补充说明
+

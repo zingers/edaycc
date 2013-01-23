@@ -69,6 +69,7 @@ Email - edaycc@gmail.com
 	luoboxia.Windows2008
 				administrator	119db4d2
 	www.alicedata		root		bingchen211033           @photonvps&godaddy
+	ec2-54-248-67-180.ap-northeast-1.compute.amazonaws.com    ubuntu
 萝卜侠办公室
     	192.168.1.1 		root 		15825039108
     	wifi    		8luobo 		7501311234

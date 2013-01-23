@@ -47,7 +47,29 @@ Eclipse
       http://www.mousefeed.com/
       该插件还可设定强制使用shortcut列表
 
-Google Chrome浏览器
+****Excel****
+      选定行                                  Shift+Space
+      增加行                                  Ctrl+"Num+"
+      删除行                                  Ctrl+"Num-"
+      隐藏/显示选中行                 Ctrl+9/Ctrl+Shift+(
+      隐藏/显示选中列                 Ctrl+0/Ctrl+Shift+ )
+
+      将外框应用于选定单元格    Ctrl+Shift+&
+      从选定单元格删除外框        Ctrl+Shift_ 
+      应用或取消加粗格式            Ctrl+B
+      应用或取消斜体格式            Ctrl+I
+      应用“常规”格式                Ctrl+Shift+~  
+      应用“日期”格式                Ctrl+Shift+#
+      应用“分时”格式                Ctrl+Shift+@
+      输入当前日期                        Ctrl+;
+      输入当前时间                        Ctrl+:
+        
+      
+      切换显示单元格值和公式    Ctrl+`  
+      替换文本                              Ctrl+H
+      编辑选中单元格                   F2
+
+****Chrome****
      Ctrl - Tab     C-shift-tab    新开标签
      Ctrl - W       关闭
      Ctrl - N        新浏览器窗口
