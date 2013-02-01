@@ -1,7 +1,7 @@
 ﻿ **国外主要外包接活站点**
 http://clay.phpme.info/
 http://clay.phpme.info/?app=article&id=1765 外包新手上路
-w.freelancer-life.cn/freelancer-websites/international-platform.html 平台介绍
+http://www.freelancer-life.cn/freelancer-websites/international-platform.html 平台介绍
 	No.1 Freelancer.com（旧称GAF – GetAFreelancer）: 国外访问人数最多，更新速度最快的外包平台。详细介绍
 
 	重要提示：最近Freelancer的官方网站Freelancer.com在国内访问非常缓慢，如果打开困难，建议使用SSH或VPN等翻墙工具进行访问；这对想在该平台上接单的人来说既是坏消息也是好消息，虽然访问比较慢，但相应的来自国内的接单竞争者也会相应减少，一些指定Chinese才能做的项目，竞争度会下降不少。

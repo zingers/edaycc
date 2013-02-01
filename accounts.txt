@@ -5,10 +5,11 @@
 陈兵	9555505711109510		招行杭州			
 	6225886554761390		招行深圳			
 	6225888714473460		招行昆明			
-	4392 2600 0848 8296		招行信用卡
-        6222 5201 1419 9967             交通银行信用卡  874  4008009888			
+	4392 2600 0848 8296		招行信用卡 454	211033
+        6222 5201 1419 9967             交通银行信用卡  874  4008009888	中心小学 211033 单币		
 	103900001349			上海证券	
-	深圳福虹路营业部 		通讯密码750131 	284141		
+	深圳福虹路营业部 		通讯密码750131 	284141	
+	PayPal		edaycc@gmail.com	pp211033+	
 
 	801962   91895		Exness	chen1333	bing1333 （只读）	手机密码：21103
 	12987465 / GCRO		mbtf/Desktop 	zingers #bing133	
@@ -42,7 +43,8 @@
 	公司内网	8luobo.mooo.com	8luobo	211033	
 						chenbing	bingchen
 	Lietou.com	edaycc@gmail.com	chenbing123	
-	Linkedin	edaycc@gmail.com	linkedin
+	Linkedin	edaycc@gmail.com	linked123
+	elance		bingcoo			elance123
 	51job		edaycc@gmail.com	chenbing123	
 	CMP		edaycc@gmail.com	chenbing			
 	
