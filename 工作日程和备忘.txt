@@ -164,6 +164,8 @@ http://192.168.2.19/mediawiki/index.php/%E7%BF%94%E6%98%8E%E7%9F%A5%E8%AF%86%E5%
         5)    Maven - enable dependency management
         6)    激活maven  更新本地maven仓库
                 Maven - update dependency
+	关于Maven ，这里有一篇介绍eclipse插件协调的
+http://stackoverflow.com/questions/2037188/how-to-configure-eclipse-build-path-to-use-maven-dependencies
 6    安装AmaterasUML
       下载附件解压缩   http://sourceforge.jp/projects/amateras/                
       需要安装GEF

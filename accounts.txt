@@ -1,5 +1,5 @@
 ﻿刘怡怜	530381198608143000	身份证号码			
-	62284819312270600000	农行帐号			
+	6228481931227064313	农行帐号			
 					
 					
 陈兵	9555505711109510		招行杭州			
@@ -48,15 +48,7 @@
 	51job		edaycc@gmail.com	chenbing123	
 	CMP		edaycc@gmail.com	chenbing			
 	
-	PhotonVPS	Server Details
-			edaycc@gmail.com	bingchen211033			
-			173.224.209.94		server1.alicedata.com
-			root	 		bingchen211033
-			SolusVM Control Panel
-			URL			http://manage.unixbsd.info:5353
-			Login 			vmuser19384
-			Password 		bingchen211033
-
+	
 Email - edaycc@gmail.com
 			vmuser19384 		bingchen211033
 	Godaddy	bingcoo		coolfish			
@@ -71,6 +63,8 @@ Email - edaycc@gmail.com
 	luoboxia.Windows2008
 				administrator	119db4d2
 	www.alicedata		root		bingchen211033           @photonvps&godaddy
+	www.freemysql.net       chenbing 	bingchen123	SQL09.FREEMYSQL.NET
+				edaycc		chenbing
 	ec2-54-248-67-180.ap-northeast-1.compute.amazonaws.com    ubuntu
 萝卜侠办公室
     	192.168.1.1 		root 		15825039108
