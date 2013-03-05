@@ -190,3 +190,20 @@ http://stackoverflow.com/questions/2037188/how-to-configure-eclipse-build-path-t
     那个火车票明天代理窗口可以买了，今天看看网购可以否
     主键以pdf为准，字段英文名称以1-15版本excel为准。
     本地数据库字段名自己取即可
+2013-02-26
+    http://www.heliohost.org/home/  据说是免费空间，有空看看
+
+2013-03-05
+    宝信项目构建经验
+    用jdk1.5和eclipse3.2，不然会一大堆麻烦事情
+    复制buildWorkspace和buildWorkspace到D:/
+    Eclipse3.2启动buildWorkspace空间
+     
+    数据库环境 jdbc:db2://10.25.77.143:50001/efmpx spesdba  用户名 spesdba  密码 com.ibm.db2.jcc.DB2Driver
+    上次翔明用项目Hiberante文档http://docs.jboss.org/hibernate/orm/4.1/manual/en-US/html/ch18.html
+    铁道部12306架构讨论http://www.iteye.com/magazines/110
+    关于最简SSH的POM设置，http://www.madbit.org/blog/programming/457/persisting-object-with-spring-3-1-and-hibernate-4/
+    ibatis2到mybatis3的进化    http://old.uplook.cn/blog/6/65872/
+    关于健康饮食
+        洁康牌超声波http://www.sg560.com/products/c5953/kiss85_86999.html
+	奥尔特http://www.oylt.cn/prodshow.asp?ProdId=110509

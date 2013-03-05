@@ -66,6 +66,7 @@ Email - edaycc@gmail.com
 	www.freemysql.net       chenbing 	bingchen123	SQL09.FREEMYSQL.NET
 				edaycc		chenbing
 	ec2-54-248-67-180.ap-northeast-1.compute.amazonaws.com    ubuntu
+	edyacc.heliohost.org/cpanel 		zingers/chenbing123
 萝卜侠办公室
     	192.168.1.1 		root 		15825039108
     	wifi    		8luobo 		7501311234
